@@ -5,19 +5,20 @@ import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import NicUser from "./models/Users.js";
+import cors from "cors"
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const PORT = process.env.PORT || 6000;
 
 
 // register
-app.get("/register", async (req, res) => {
+app.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
-
     // encryption
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
@@ -38,18 +39,16 @@ app.post("/login", async (req, res) => {
   try{
     const { email, password } = req.body;
     const user = await NicUser.findOne({ email: email });
-    // console.log(user);
     if(!user){
       return res.status(400).json({ msg: "User not exist" });
     }
     const isMatchPass = await bcrypt.compare(password, user.password);
-    // console.log(isMatchPass);
     if(!isMatchPass){
       return res.status(400).json({ msg: "Invalid credentials" });
     }
-    const token = jwt.sign({id: user._id}, process.env.JWT_SALT)
+    const token = jwt.sign({id: user._id}, process.env.JWT_SALT);
+    console.log(token);
     res.status(200).json({ user, token });
-
   } catch(err){
     res.status(500).json({ error: err.message });
   }
