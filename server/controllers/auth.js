@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import NicUser from "../models/Users";
 
-export const register = async (req, res) => {
+const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
@@ -20,3 +20,5 @@ export const register = async (req, res) => {
     res.status(500).json({ error: err });
   }
 };
+
+export default register;
