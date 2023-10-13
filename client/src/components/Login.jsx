@@ -1,11 +1,16 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLogin } from "../state";
 
 const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [isLoginState, setLoginState] = useState(false);
+  const [isLoginState, setLoginState] = useState(true);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const registerCall = async () => {
 
@@ -38,7 +43,14 @@ const Login = () => {
     })
     const isLoginSucc = await loginResponse.json();
     if(isLoginSucc){
-      console.log(isLoginSucc.user, isLoginSucc.token);
+      // console.log(isLoginSucc.user, isLoginSucc.token);
+      dispatch(
+        setLogin({
+          user: isLoginSucc.user,
+          token: isLoginSucc.token,
+        })
+      )
+      navigate("/home");
     }else{
       console.log("invalid");
     }
@@ -46,7 +58,6 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(email, password, name, isLoginState);
     if(isLoginState) await loginCall();
     else await registerCall();
   }
@@ -60,7 +71,7 @@ const Login = () => {
         Sign up to <br/> Get your <br/> ideas
       </div>
 
-      <div className="px-0 sm:px-10 lg:px-40 w-[95vw]">
+      <div className="px-0 lg:px-32 w-[95vw]">
         <div className="bg-white  p-[1rem] sm:p-[2rem] w-[100%] sm:w-[30rem] h-[100%]">
 
             <div className="flex flex-col justify-center items-center mt-8 sm:mt-16" >
@@ -106,12 +117,12 @@ const Login = () => {
               {!isLoginState 
               ? <button 
                     type="submit" 
-                    className="w-[100%] bg-red-600 text-gray-50 mt-[1rem] rounded-2xl p-3" 
+                    className="w-[100%] bg-red-600 hover:bg-red-700 text-gray-50 mt-[1rem] rounded-3xl p-3" 
                 >Create Account
                 </button>
               : <button 
                     type="submit" 
-                    className="w-[100%] bg-red-600 text-gray-50 mt-[1rem] rounded-2xl p-3" 
+                    className="w-[100%] bg-red-600 hover:bg-red-700 text-gray-50 mt-[1rem] rounded-3xl p-3" 
                 >Log In
                 </button>
               } 
@@ -123,12 +134,12 @@ const Login = () => {
               {!isLoginState 
               ? <button 
                       onClick={() => setLoginState(!isLoginState)}
-                      className="w-[100%] bg-red-600 text-gray-50 mt-[1rem] rounded-2xl p-3"
+                      className="w-[100%] bg-red-600 hover:bg-red-700 text-gray-50 mt-[1rem] rounded-3xl p-3"
                 > Log In
                 </button>
               : <button 
                     onClick={() => setLoginState(!isLoginState)}
-                    className="w-[100%] bg-red-600 text-gray-50 mt-[1rem] rounded-2xl p-3"
+                    className="w-[100%] bg-red-600 hover:bg-red-700 text-gray-50 mt-[1rem] rounded-3xl p-3"
                 > Sign Up
                 </button>
               }

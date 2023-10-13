@@ -1,14 +1,34 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import Login from './components/Login'
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
+import Login from './components/Login';
+import { useSelector } from 'react-redux';
+import Home from "./components/Home"
+import { useDispatch } from "react-redux";
+import { setLogin } from "./state";
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const isAuth = Boolean(useSelector((state) => state.token));
+  console.log(isAuth);
+  const dispatch = useDispatch();
+  
+  // dispatch(
+  //   setLogin({
+  //     user: null,
+  //     token: null,
+  //   })
+  // )
 
   return (
     <>
-      <Login />
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Login />} />
+          <Route 
+            path='/home' 
+            element={isAuth ? <Home /> : <Navigate to="/"/>} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
