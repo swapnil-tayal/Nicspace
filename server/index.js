@@ -5,7 +5,11 @@ import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import NicUser from "./models/Users.js";
+import NicPost from "./models/Post.js";
 import cors from "cors"
+import multer from "multer";
+import { fileURLToPath } from "url";
+import path from "path";
 dotenv.config();
 
 const app = express();
@@ -14,6 +18,38 @@ app.use(cors());
 
 const PORT = process.env.PORT || 6000;
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use("/assets", express.static(path.join(__dirname, "public/assets")));
+
+const storage = multer.diskStorage({
+  destination:function(req, file, cb){
+      cb(null, "public/assets");
+  },
+  filename: function(req, file, cb){
+      cb(null, Date.now() + "_" + file.originalname);
+  }
+})
+const upload = multer({ storage });
+
+app.post("/posts", upload.single("picture"), async(req, res) => {
+  try{
+    const { userId, description, picturePath } = req.body;
+    const user = await NicUser.findById(userId);
+    const newPost = new NicPost({
+      userId: userId,
+      name: user.name,
+      description: description,
+      picturePath: picturePath,
+    });
+    await newPost.save();
+    const post = await NicPost.find( {"userId": userId} );
+    res.status(201).json(post);
+
+  }catch(e){
+    res.status(409).json({ message: e.message });
+  }
+});
 
 // register
 app.post("/register", async (req, res) => {

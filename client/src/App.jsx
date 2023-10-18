@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import Home from "./components/Home"
 import { useDispatch } from "react-redux";
 import { setLogin } from "./state";
+import { useEffect } from 'react';
 
 function App() {
 
@@ -12,12 +13,14 @@ function App() {
   console.log(isAuth);
   const dispatch = useDispatch();
   
-  // dispatch(
-  //   setLogin({
-  //     user: null,
-  //     token: null,
-  //   })
-  // )
+  // useEffect(() => {
+  //   dispatch(
+  //     setLogin({
+  //       user: null,
+  //       token: null,
+  //     })
+  //   )
+  // })
 
   return (
     <>
