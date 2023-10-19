@@ -32,15 +32,38 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage });
 
-app.post("/posts", upload.single("picture"), async(req, res) => {
+app.post("/posts/video", upload.single("video"), async(req, res) => {
+  try{
+    console.log(req.body);
+    const { userId, description, videoPath } = req.body;
+    const user = await NicUser.findById(userId);
+    const newPost = new NicPost({
+      userId: userId,
+      name: user.name,
+      description: description,
+      picturePath: videoPath,
+      type: "video"
+    });
+    await newPost.save();
+    const post = await NicPost.find( {"userId": userId} );
+    res.status(201).json(post);
+
+  }catch(e){
+    res.status(409).json({ message: e.message });
+  }
+})
+
+app.post("/posts/picture", upload.single("picture"), async(req, res) => {
   try{
     const { userId, description, picturePath } = req.body;
+
     const user = await NicUser.findById(userId);
     const newPost = new NicPost({
       userId: userId,
       name: user.name,
       description: description,
       picturePath: picturePath,
+      type: "picture"
     });
     await newPost.save();
     const post = await NicPost.find( {"userId": userId} );

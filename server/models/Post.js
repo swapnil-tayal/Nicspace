@@ -11,6 +11,7 @@ const postSchema = new mongoose.Schema({
   },
   description: String,
   picturePath: String,
+  type: String
   // userPicturePath: String,
 },
   {timestamps: true}
