@@ -57,7 +57,7 @@ app.post("/posts/picture", upload.single("picture"), async(req, res) => {
   try{
     const { userId, description, picturePath, title, link, tag } = req.body;
     const tags = tag.split(" ");
-    console.log(tags);
+    // console.log(tags);
 
     const user = await NicUser.findById(userId);
     const newPost = new NicPost({

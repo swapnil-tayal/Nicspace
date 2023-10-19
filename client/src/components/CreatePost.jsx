@@ -34,6 +34,7 @@ const CreatePost = () => {
       // headers: { "Content-Type": "application/json" },
       body: formData,
     })
+    
     const post = await response.json();
     console.log('success')
 
@@ -69,7 +70,7 @@ const CreatePost = () => {
 
     <div>
 
-      <div className="flex flex-row px-16 py-6 justify-between border-y-8" >
+      <div className="flex flex-row p-2 sm:px-16 sm:py-6 justify-between border-y-8" >
         <div className="text-2xl"> Create Nic </div>
         { image &&
         <button 
@@ -85,15 +86,15 @@ const CreatePost = () => {
         </div>
         }
       </div>
-      <div className="flex justify-center mt-8 gap-16">
+      <div className="flex flex-col sm:flex-row justify-center mt-8 gap-16">
 
-        <div>
+        <div className="p-2">
           <Dropzone acceptedFiles=".jpg,.jpeg,.png"
                     multiple={false} 
                     onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}>
             {({ getRootProps, getInputProps }) => (
             <div>
-              <div className="h-[26rem] w-[24rem] bg-[#e9e9e9] flex flex-col justify-center rounded-3xl" {...getRootProps()}>
+              <div className="h-[20rem] sm:h-[26rem] w-[90vw] sm:w-[24rem] bg-[#e9e9e9] flex flex-col justify-center rounded-3xl" {...getRootProps()}>
                 <div className="px-[10rem] flex flex-row">
                   <img className="w-[50px]" src="../images/upload.png" alt="" /> 
                 </div>
@@ -111,10 +112,10 @@ const CreatePost = () => {
           {/* <button > Sumbit</button> */}
         </div>
 
-        <form>
+        <form className="p-2">
           <div className="items-start text-sm ml-[7px] mb-[5px]">Title</div>
           { image ?
-            <input  className="border-solid border-2 p-[12px] w-[30rem] focus:border-cyan-500 
+            <input  className="border-solid border-2 p-[12px] w-[90vw] sm:w-[30rem] focus:border-cyan-500 
                               focus:outline-none rounded-xl" 
                     value={title} 
                     required      
@@ -122,7 +123,7 @@ const CreatePost = () => {
                     placeholder="Add a title" 
             />
           : 
-          <input  className="border-solid border-2 p-[12px] w-[30rem] focus:border-cyan-500 
+          <input  className="border-solid border-2 p-[12px] w-[90vw] sm:w-[30rem] focus:border-cyan-500 
                             focus:outline-none rounded-xl" 
                   value={title} 
                   required     
@@ -133,7 +134,7 @@ const CreatePost = () => {
           } 
           <div className="items-start text-sm ml-[7px] mb-[5px] mt-[20px]">Description</div>
           { image ?  
-            <input  className="border-solid border-2 p-[12px] w-[30rem] focus:border-cyan-500 
+            <input  className="border-solid border-2 p-[12px] w-[90vw] sm:w-[30rem] focus:border-cyan-500 
                               focus:outline-none rounded-xl" 
                     value={description} 
                     required
@@ -141,7 +142,7 @@ const CreatePost = () => {
                     placeholder="Add a detailed Description" 
             /> 
             :
-            <input  className="border-solid border-2 p-[12px] w-[30rem] focus:border-cyan-500 
+            <input  className="border-solid border-2 p-[12px] w-[90vw] sm:w-[30rem] focus:border-cyan-500 
                               focus:outline-none rounded-xl" 
                     value={description} 
                     required
@@ -152,7 +153,7 @@ const CreatePost = () => {
           }
           <div className="items-start text-sm ml-[7px] mb-[5px] mt-[20px]">Link</div>
           { image ?  
-            <input  className="border-solid border-2 p-[12px] w-[30rem] focus:border-cyan-500 
+            <input  className="border-solid border-2 p-[12px] w-[90vw] sm:w-[30rem] focus:border-cyan-500 
                               focus:outline-none rounded-xl" 
                     text="link"
                     value={link}
@@ -161,7 +162,7 @@ const CreatePost = () => {
                     placeholder="Add a Link" 
             /> 
             :
-            <input  className="border-solid border-2 p-[12px] w-[30rem] focus:border-cyan-500 
+            <input  className="border-solid border-2 p-[12px] w-[90vw] sm:w-[30rem] focus:border-cyan-500 
                               focus:outline-none rounded-xl" 
                     text="link"
                     value={link}
@@ -173,7 +174,7 @@ const CreatePost = () => {
           }
           <div className="items-start text-sm ml-[7px] mb-[5px] mt-[20px]">Tagged Topics</div>
           { image ?  
-            <input  className="border-solid border-2 p-[12px] w-[30rem] focus:border-cyan-500 
+            <input  className="border-solid border-2 p-[12px] w-[90vw] sm:w-[30rem] focus:border-cyan-500 
                               focus:outline-none rounded-xl" 
                     value={tag}
                     onChange={(e) => setTag(e.target.value)} 
@@ -181,7 +182,7 @@ const CreatePost = () => {
                     placeholder="Search for a tag" 
             /> 
             :
-            <input  className="border-solid border-2 p-[12px] w-[30rem] focus:border-cyan-500 
+            <input  className="border-solid border-2 p-[12px] w-[90vw] sm:w-[30rem] focus:border-cyan-500 
                               focus:outline-none rounded-xl" 
                     value={tag}
                     onChange={(e) => setTag(e.target.value)} 
