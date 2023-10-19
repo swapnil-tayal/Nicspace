@@ -55,7 +55,9 @@ app.post("/posts/video", upload.single("video"), async(req, res) => {
 
 app.post("/posts/picture", upload.single("picture"), async(req, res) => {
   try{
-    const { userId, description, picturePath } = req.body;
+    const { userId, description, picturePath, title, link, tag } = req.body;
+    const tags = tag.split(" ");
+    console.log(tags);
 
     const user = await NicUser.findById(userId);
     const newPost = new NicPost({
@@ -63,7 +65,10 @@ app.post("/posts/picture", upload.single("picture"), async(req, res) => {
       name: user.name,
       description: description,
       picturePath: picturePath,
-      type: "picture"
+      type: "picture",
+      title: title,
+      link: link,
+      tag: tags
     });
     await newPost.save();
     const post = await NicPost.find( {"userId": userId} );

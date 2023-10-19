@@ -9,10 +9,12 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  title: String,
   description: String,
   picturePath: String,
-  type: String
-  // userPicturePath: String,
+  type: String,
+  link: String,
+  tag: [],
 },
   {timestamps: true}
 );
