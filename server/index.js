@@ -34,15 +34,19 @@ const upload = multer({ storage });
 
 app.post("/posts/video", upload.single("video"), async(req, res) => {
   try{
-    console.log(req.body);
-    const { userId, description, videoPath } = req.body;
+    const { userId, description, picturePath, title, link, tag } = req.body;
+    const tags = tag.split(" ");
+    
     const user = await NicUser.findById(userId);
     const newPost = new NicPost({
       userId: userId,
       name: user.name,
       description: description,
-      picturePath: videoPath,
-      type: "video"
+      picturePath: picturePath,
+      type: "video",
+      title: title,
+      link: link,
+      tag: tags
     });
     await newPost.save();
     const post = await NicPost.find( {"userId": userId} );

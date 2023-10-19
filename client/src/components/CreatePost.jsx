@@ -12,6 +12,7 @@ const CreatePost = () => {
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
   const [showPublishButton, setShowPublishButton] = useState(false);
+  const [isPic, setPic] = useState(true);
 
   const user = useSelector((state) => state.user);
 
@@ -31,7 +32,6 @@ const CreatePost = () => {
 
     const response = await fetch(`http://localhost:3001/posts/picture`, {
       method: "POST",
-      // headers: { "Content-Type": "application/json" },
       body: formData,
     })
     
@@ -52,19 +52,30 @@ const CreatePost = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("userId", user._id);
-    formData.append("description", "random");
-    formData.append("picturePath", video.name);
+    formData.append("description", description)
+    formData.append("picturePath", video.name)
     formData.append("video", video);
-    console.log(video);
+    formData.append("title", title);
+    formData.append("link", link);
+    formData.append("tag", tag);
 
     const response = await fetch(`http://localhost:3001/posts/video`, {
       method: "POST",
-      // headers: { "Content-Type": "application/json" },
       body: formData,
     })
     const post = await response.json();
     console.log('success')
+    
+    setImage(null);
+    setVideo(null);
+    setTitle("");
+    setLink("");
+    setDescription("");
+    setTag("");
+    setShowPublishButton(true);
   };
+
+  console.log(video, isPic);
 
   return (
 
@@ -72,49 +83,88 @@ const CreatePost = () => {
 
       <div className="flex flex-row p-2 sm:px-16 sm:py-6 justify-between border-y-8" >
         <div className="text-2xl"> Create Nic </div>
-        { image &&
-        <button 
-                onClick={handlePostPic}
-                className="bg-red-600 hover:bg-red-700 text-gray-50 rounded-3xl px-4 py-2"
-                > Publish
-        </button>
-        }
-        { showPublishButton &&
-        <div 
-          className="bg-black text-white rounded-3xl px-4 py-2"> 
-          Your Content is Published 
+        <div className="flex flex-row gap-2" >
+          { !image && !video &&
+            <button 
+                    onClick={() => setPic(!isPic)}
+                    className="bg-red-600 hover:bg-red-700 text-gray-50 rounded-3xl px-4 py-2"
+                    > Upload {isPic ? "Video" : "Image"}
+            </button>
+          }
+          { image && isPic &&
+            <button 
+                    onClick={handlePostPic}
+                    className="bg-red-600 hover:bg-red-700 text-gray-50 rounded-3xl px-4 py-2"
+                    > Publish
+            </button>
+          }
+          { video && !isPic &&
+            <button 
+                    onClick={handlePostVid}
+                    className="bg-red-600 hover:bg-red-700 text-gray-50 rounded-3xl px-4 py-2"
+                    > Publish
+            </button>
+          }
+          { showPublishButton &&
+            <div 
+              className="bg-black text-white rounded-3xl px-4 py-2"> 
+              Your Content is Published 
+            </div>
+          }
         </div>
-        }
       </div>
       <div className="flex flex-col sm:flex-row justify-center mt-8 gap-16">
 
         <div className="p-2">
-          <Dropzone acceptedFiles=".jpg,.jpeg,.png"
-                    multiple={false} 
-                    onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}>
+          { isPic ?
+            <Dropzone acceptedFiles=".jpg,.jpeg,.png"
+                      multiple={false} 
+                      onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}>
+              {({ getRootProps, getInputProps }) => (
+              <div>
+                <div className="h-[20rem] sm:h-[26rem] w-[90vw] sm:w-[24rem] bg-[#e9e9e9] flex flex-col justify-center rounded-3xl" {...getRootProps()}>
+                  <div className="px-[10rem] flex flex-row">
+                    <img className="w-[50px]" src="../images/upload.png" alt="" /> 
+                  </div>
+                  <input  {...getInputProps()} />
+                  <p className="px-[3.5rem]">Choose a <span className="font-bold">PIC</span> or drag and drop it here</p>
+                  {image && (
+                    <div>
+                      <div className="py-4 px-[4rem]"> {image.name} </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              )}
+            </Dropzone>
+            :
+            <Dropzone acceptedFiles=".mp4,.mov,.avi,.mkv,.WEBM"
+                      multiple={false} 
+                      onDrop={(acceptedFiles) => setVideo(acceptedFiles[0])}>
             {({ getRootProps, getInputProps }) => (
-            <div>
+              <div>
               <div className="h-[20rem] sm:h-[26rem] w-[90vw] sm:w-[24rem] bg-[#e9e9e9] flex flex-col justify-center rounded-3xl" {...getRootProps()}>
                 <div className="px-[10rem] flex flex-row">
                   <img className="w-[50px]" src="../images/upload.png" alt="" /> 
                 </div>
                 <input  {...getInputProps()} />
-                <p className="px-[3.5rem]">Choose a file or drag and drop it here</p>
-                {image && (
+                <p className="px-[3.5rem]">Choose a <span className="font-bold">VID</span>or drag and drop it here</p>
+                {video && (
                   <div>
-                    <div className="py-4 px-[4rem]"> {image.name} </div>
+                    <div className="py-4 px-[4rem]"> {video.name} </div>
                   </div>
                 )}
               </div>
             </div>
             )}
-          </Dropzone>
+            </Dropzone>
+          }
           {/* <button > Sumbit</button> */}
         </div>
 
         <form className="p-2">
           <div className="items-start text-sm ml-[7px] mb-[5px]">Title</div>
-          { image ?
+          { (isPic && image) || (!isPic && video) ?
             <input  className="border-solid border-2 p-[12px] w-[90vw] sm:w-[30rem] focus:border-cyan-500 
                               focus:outline-none rounded-xl" 
                     value={title} 
@@ -133,7 +183,7 @@ const CreatePost = () => {
           />
           } 
           <div className="items-start text-sm ml-[7px] mb-[5px] mt-[20px]">Description</div>
-          { image ?  
+          { (isPic && image) || (!isPic && video) ?  
             <input  className="border-solid border-2 p-[12px] w-[90vw] sm:w-[30rem] focus:border-cyan-500 
                               focus:outline-none rounded-xl" 
                     value={description} 
@@ -152,7 +202,7 @@ const CreatePost = () => {
             /> 
           }
           <div className="items-start text-sm ml-[7px] mb-[5px] mt-[20px]">Link</div>
-          { image ?  
+          { (isPic && image) || (!isPic && video) ?  
             <input  className="border-solid border-2 p-[12px] w-[90vw] sm:w-[30rem] focus:border-cyan-500 
                               focus:outline-none rounded-xl" 
                     text="link"
@@ -173,7 +223,7 @@ const CreatePost = () => {
             /> 
           }
           <div className="items-start text-sm ml-[7px] mb-[5px] mt-[20px]">Tagged Topics</div>
-          { image ?  
+          { (isPic && image) || (!isPic && video) ?  
             <input  className="border-solid border-2 p-[12px] w-[90vw] sm:w-[30rem] focus:border-cyan-500 
                               focus:outline-none rounded-xl" 
                     value={tag}
