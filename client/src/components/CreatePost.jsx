@@ -74,8 +74,7 @@ const CreatePost = () => {
     setTag("");
     setShowPublishButton(true);
   };
-
-  console.log(video, isPic);
+  const maxSize = 1048576;
 
   return (
 
@@ -117,20 +116,28 @@ const CreatePost = () => {
 
         <div className="p-2">
           { isPic ?
-            <Dropzone acceptedFiles=".jpg,.jpeg,.png"
-                      multiple={false} 
-                      onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}>
-              {({ getRootProps, getInputProps }) => (
+            <Dropzone multiple={false} 
+                      onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}
+                      // accept={"image/png"}
+                      minSize={0}
+                      maxSize={maxSize}
+                      >
+              {({ getRootProps, getInputProps, isDragActive, isDragReject }) => (
               <div>
-                <div className="h-[20rem] sm:h-[26rem] w-[90vw] sm:w-[24rem] bg-[#e9e9e9] flex flex-col justify-center rounded-3xl" {...getRootProps()}>
-                  <div className="px-[10rem] flex flex-row">
+                <div className="h-[20rem] sm:h-[26rem] w-[90vw] sm:w-[24rem] 
+                              bg-[#e9e9e9] flex flex-col justify-center items-center rounded-3xl" {...getRootProps()}>
+                  <div className="flex flex-row">
                     <img className="w-[50px]" src="../images/upload.png" alt="" /> 
                   </div>
                   <input  {...getInputProps()} />
-                  <p className="px-[3.5rem]">Choose a <span className="font-bold">PIC</span> or drag and drop it here</p>
+                  {isDragActive ? 
+                    "Drop it like it's hot!" : 
+                    <p className="">Choose a <span className="font-bold">PICTURE</span> or drag and drop it here</p>
+                  }
+                  {isDragReject && "File type not accepted, sorry!"}
                   {image && (
                     <div>
-                      <div className="py-4 px-[4rem]"> {image.name} </div>
+                      <div className=""> {image.name} </div>
                     </div>
                   )}
                 </div>
@@ -138,20 +145,22 @@ const CreatePost = () => {
               )}
             </Dropzone>
             :
-            <Dropzone acceptedFiles=".mp4,.mov,.avi,.mkv,.WEBM"
-                      multiple={false} 
+            <Dropzone multiple={false} 
                       onDrop={(acceptedFiles) => setVideo(acceptedFiles[0])}>
-            {({ getRootProps, getInputProps }) => (
+            {({ getRootProps, getInputProps, isDragActive }) => (
               <div>
-              <div className="h-[20rem] sm:h-[26rem] w-[90vw] sm:w-[24rem] bg-[#e9e9e9] flex flex-col justify-center rounded-3xl" {...getRootProps()}>
-                <div className="px-[10rem] flex flex-row">
-                  <img className="w-[50px]" src="../images/upload.png" alt="" /> 
-                </div>
+              <div className="h-[20rem] sm:h-[26rem] w-[90vw] sm:w-[24rem] 
+                              bg-[#e9e9e9] flex flex-col justify-center items-center rounded-3xl" {...getRootProps()}>
+                <img className="w-[50px]" src="../images/upload.png" alt="" /> 
+                
                 <input  {...getInputProps()} />
-                <p className="px-[3.5rem]">Choose a <span className="font-bold">VID</span>or drag and drop it here</p>
+                {isDragActive ? 
+                    "Drop it like it's hot!" : 
+                    <p className="">Choose a <span className="font-bold">VIDEO</span> or drag and drop it here</p>
+                }
                 {video && (
                   <div>
-                    <div className="py-4 px-[4rem]"> {video.name} </div>
+                    <div className="py-4"> {video.name} </div>
                   </div>
                 )}
               </div>
@@ -159,7 +168,6 @@ const CreatePost = () => {
             )}
             </Dropzone>
           }
-          {/* <button > Sumbit</button> */}
         </div>
 
         <form className="p-2">
