@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setPage } from '../state';
+import { setPage, setLogout } from '../state';
 
 const Navbar = () => {
   
@@ -38,6 +38,10 @@ const Navbar = () => {
                           px-[1rem] py-3 text-base rounded-3xl font-medium`}
                onClick={() => {dispatch(setPage({page: "saved"}))}}
           >Saved</div>
+          <div className={`hidden md:block ${currPage=="logout"?`bg-black text-white`:`bg-white text-black`} 
+                          px-[1rem] py-3 text-base rounded-3xl font-medium`}
+               onClick={() => {dispatch(setLogout())}}
+          >Logout</div>
           
           <div className='px-2'>
             <input className='py-3 px-6 rounded-3xl bg-[#e9e9e9]' 

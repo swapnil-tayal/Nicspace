@@ -20,6 +20,7 @@ export const authSlice = createSlice({
       state.token = action.payload.token;
     },
     setLogout: (state) => {
+      console.log("hello from redux")
       state.user = null;
       state.token = null;
     },
