@@ -16,6 +16,8 @@ const CreatePost = () => {
 
   const user = useSelector((state) => state.user);
 
+  console.log(user);
+
   const handlePostPic = async (e) => {
 
     e.preventDefault();
@@ -120,7 +122,7 @@ const CreatePost = () => {
                       onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}
                       // accept={"image/png"}
                       minSize={0}
-                      maxSize={maxSize}
+                      // maxSize={maxSize}
                       >
               {({ getRootProps, getInputProps, isDragActive, isDragReject }) => (
               <div>

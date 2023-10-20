@@ -2,31 +2,35 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../state";
+import Dropzone from "react-dropzone";
 
 const Login = () => {
 
+  const [image, setImage] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [isLoginState, setLoginState] = useState(true);
+  const [isLoginState, setLoginState] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const registerCall = async () => {
 
-    const data = {
-      email: email,
-      name: name,
-      password: password
-    }
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("name", name);
+    formData.append("password", password);
+    formData.append("picture", image);
+    formData.append("picturePath", image.name);
+    
     const registerResponse = await fetch(`http://localhost:3001/register`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data), 
+      body: formData, 
     })
     const isRegisSucc = await registerResponse.json();
     if(isRegisSucc){
       console.log('user registered');
+      navigate("/home");
     }
   }
 
@@ -34,7 +38,7 @@ const Login = () => {
 
     const data = {
       email: email,
-      password: password
+      password: password,
     }
     const loginResponse = await fetch(`http://localhost:3001/login`,{
       method: "POST",
@@ -74,7 +78,8 @@ const Login = () => {
       <div className="px-0 lg:px-32 w-[95vw]">
         <div className="bg-white  p-[1rem] sm:p-[2rem] w-[100%] sm:w-[30rem] h-[100%]">
 
-            <div className="flex flex-col justify-center items-center mt-8 sm:mt-16" >
+            <div className={`flex flex-col justify-center items-center 
+                              ${!isLoginState ? 'mt-1 sm:mt-1':'mt-8 sm:mt-16'}`} >
               <img className="w-[85px]" src="../images/logo.png" alt="" /> 
               <div className="text-black font-semibold text-[1.2rem] sm:text-[1.8rem]">Welcome to Nicterest</div>
               <div className="text-black font-normal text-[1rem]">Find new ideas to try</div>
@@ -90,6 +95,7 @@ const Login = () => {
                       value={email} 
                       onChange={(e) => setEmail(e.target.value)} 
               /> 
+
               {!isLoginState && 
                 <div>
                   <div className="items-start ml-[7px] mb-[5px] mt-[10px]">Name</div>
@@ -101,6 +107,28 @@ const Login = () => {
                           value={name} 
                           onChange={(e) => setName(e.target.value)} 
                   /> 
+                  <div className="items-start ml-[7px] mb-[5px] mt-[10px]">Picture</div>
+                  <Dropzone multiple={false} 
+                      onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}
+                      minSize={0}
+                      >
+                  {({ getRootProps, getInputProps, isDragActive }) => (
+                  <div>
+                    <div className="border-solid border-2 p-[12px] w-[100%] focus:border-cyan-500 
+                                    focus:outline-none rounded-xl bg-[#e9e9e9]"  {...getRootProps()}>
+                      <input  {...getInputProps()} />
+                      {image ? 
+                        <div>
+                          <div className=""> {image.name} </div>
+                        </div>
+                      : isDragActive ? 
+                        "Drop it like it's hot!" : 
+                        <p className="">Choose a <span className="font-bold">PICTURE</span></p>
+                      }
+                    </div>
+                  </div>
+                  )}
+                </Dropzone>
                 </div>
               }
               <div className="items-start ml-[7px] mb-[5px] mt-[10px]">Password</div>

@@ -14,35 +14,43 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors());  
 
 const PORT = process.env.PORT || 6000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
+let date;
+
+const update = () => (
+  date = Date.now()
+)
 
 const storage = multer.diskStorage({
   destination:function(req, file, cb){
       cb(null, "public/assets");
   },
   filename: function(req, file, cb){
-      cb(null, Date.now() + "_" + file.originalname);
+    update();
+    cb(null, date + "_" + file.originalname);
   }
 })
+
 const upload = multer({ storage });
 
 app.post("/posts/video", upload.single("video"), async(req, res) => {
   try{
     const { userId, description, picturePath, title, link, tag } = req.body;
-    const tags = tag.split(" ");
+    const tags = tag.split(" ");    
+    const newPath = date + "_" + picturePath;
     
     const user = await NicUser.findById(userId);
     const newPost = new NicPost({
       userId: userId,
       name: user.name,
       description: description,
-      picturePath: picturePath,
+      picturePath: newPath,
       type: "video",
       title: title,
       link: link,
@@ -61,14 +69,15 @@ app.post("/posts/picture", upload.single("picture"), async(req, res) => {
   try{
     const { userId, description, picturePath, title, link, tag } = req.body;
     const tags = tag.split(" ");
-    // console.log(tags);
+    // console.log(picturePath)
+    const newPath = date + "_" + picturePath;
 
     const user = await NicUser.findById(userId);
     const newPost = new NicPost({
       userId: userId,
-      name: user.name,
+      name: user.name,  
       description: description,
-      picturePath: picturePath,
+      picturePath: newPath,
       type: "picture",
       title: title,
       link: link,
@@ -84,9 +93,10 @@ app.post("/posts/picture", upload.single("picture"), async(req, res) => {
 });
 
 // register
-app.post("/register", async (req, res) => {
+app.post("/register", upload.single("picture"), async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, picturePath } = req.body;
+    const newPath = date + "_" + picturePath;
     // encryption
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
@@ -94,6 +104,7 @@ app.post("/register", async (req, res) => {
       name,
       email,
       password: passwordHash,
+      picturePath: newPath
     });
     const savedNicUser = await newNicUser.save();
     res.status(201).json(savedNicUser);
@@ -121,6 +132,15 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+app.get("/posts", async(req, res) => {
+  try{
+    const post = await NicPost.find();
+    res.status(200).json(post);
+  } catch(e){
+    res.status(404).json({ message: err.message });
+  }
+})
 
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
