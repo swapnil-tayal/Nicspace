@@ -3,6 +3,8 @@ import Postcard from './Postcard';
 import { useDispatch, useSelector } from "react-redux";
 import state, { setPost } from '../state';
 
+
+
 const Feed = () => {
 
   const dispatch = useDispatch();
@@ -17,7 +19,6 @@ const Feed = () => {
     });
     const data = await response.json();
     dispatch(setPost({posts: data}));
-    console.log(posts);
   }
 
   useEffect(() => {
@@ -25,9 +26,9 @@ const Feed = () => {
   }, []);
 
   return (
-    <div className='columns-5 col-span-4 gap-4 p-6'>
+    <div className='columns-6 col-span-4 gap-4 p-6'>
       {/* <div className='bg-green-500' > */}
-        {Array.from(posts).map(({description, link, picturePath, title, userId, type}) => 
+        {Array.from(posts).map(({description, link, picturePath, title, userId, type, userDP, name}) => 
           <Postcard 
             key={description}
             description={description}
@@ -36,6 +37,8 @@ const Feed = () => {
             title={title}
             userId={userId}
             type={type}
+            userDP={userDP}
+            name={name}
           />
         )}
       {/* </div> */}

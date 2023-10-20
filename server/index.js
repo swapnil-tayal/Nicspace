@@ -41,7 +41,7 @@ const upload = multer({ storage });
 
 app.post("/posts/video", upload.single("video"), async(req, res) => {
   try{
-    const { userId, description, picturePath, title, link, tag } = req.body;
+    const { userId, description, picturePath, title, link, tag, userDP } = req.body;
     const tags = tag.split(" ");    
     const newPath = date + "_" + picturePath;
     
@@ -54,7 +54,8 @@ app.post("/posts/video", upload.single("video"), async(req, res) => {
       type: "video",
       title: title,
       link: link,
-      tag: tags
+      tag: tags,
+      userDP: userDP
     });
     await newPost.save();
     const post = await NicPost.find( {"userId": userId} );
@@ -67,7 +68,7 @@ app.post("/posts/video", upload.single("video"), async(req, res) => {
 
 app.post("/posts/picture", upload.single("picture"), async(req, res) => {
   try{
-    const { userId, description, picturePath, title, link, tag } = req.body;
+    const { userId, description, picturePath, title, link, tag, userDP } = req.body;
     const tags = tag.split(" ");
     // console.log(picturePath)
     const newPath = date + "_" + picturePath;
@@ -81,7 +82,8 @@ app.post("/posts/picture", upload.single("picture"), async(req, res) => {
       type: "picture",
       title: title,
       link: link,
-      tag: tags
+      tag: tags,
+      userDP: userDP
     });
     await newPost.save();
     const post = await NicPost.find( {"userId": userId} );

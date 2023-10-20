@@ -12,6 +12,7 @@ const postSchema = new mongoose.Schema({
   title: String,
   description: String,
   picturePath: String,
+  userDP: String,
   type: String,
   link: String,
   tag: [],
