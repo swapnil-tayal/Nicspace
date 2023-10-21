@@ -3,7 +3,11 @@ import Postcard from './Postcard';
 import { useDispatch, useSelector } from "react-redux";
 import state, { setPost } from '../state';
 
-
+const shuffle = (array) => { 
+  return array.map((a) => ({ sort: Math.random(), value: a }))
+      .sort((a, b) => a.sort - b.sort)
+      .map((a) => a.value); 
+}; 
 
 const Feed = () => {
 
@@ -18,7 +22,8 @@ const Feed = () => {
       method: "GET",
     });
     const data = await response.json();
-    dispatch(setPost({posts: data}));
+    const newData = shuffle(data);
+    dispatch(setPost({posts: newData}));
   }
 
   useEffect(() => {
@@ -30,7 +35,7 @@ const Feed = () => {
       {/* <div className='bg-green-500' > */}
         {Array.from(posts).map(({description, link, picturePath, title, userId, type, userDP, name}) => 
           <Postcard 
-            key={description}
+            key={picturePath}
             description={description}
             link={link}
             picturePath={picturePath}

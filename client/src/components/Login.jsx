@@ -10,7 +10,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [isLoginState, setLoginState] = useState(false);
+  const [isLoginState, setLoginState] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
