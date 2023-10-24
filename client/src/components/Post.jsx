@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Feed from './Feed';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPage } from '../state';
@@ -13,12 +13,17 @@ const Post = () => {
     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
   }
   
+  useEffect(() => {
+    toTop();
+  }, [])
+
   return (
     <>
     <img 
       onClick={() => {dispatch(setPage({page: "home"}))}}
-      className='w-[50px] ml-12 mt-10 hover:bg-[#e9e9e9] p-4 rounded-full absolute ' 
+      className='w-[50px] ml-12 mt-10 hover:bg-[#e9e9e9] p-4 rounded-full absolute hidden lg:block' 
       src="../images/backArrow.png" ></img>
+      
     <div className='flex flex-row justify-center' >
       <div className='p-10 rounded-2xl shadow-xl mt-6 flex flex-col md:flex-row justify-center gap-12'>
         <img className="max-w-md rounded-xl" src={`http://localhost:3001/assets/${currPost.picturePath}`} alt="" />   
