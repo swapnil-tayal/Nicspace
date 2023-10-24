@@ -20,6 +20,9 @@ const UserSchema = new mongoose.Schema(
       min: 6,
     },
     picturePath: String,
+    savePost:{
+      type: Array,  
+    }
   },
   { timestamps: true }
 );

@@ -2,12 +2,30 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrPost, setPage } from '../state';
 
-const Postcard = ({ description, link, picturePath, title, userId, type, userDP, name, tag }) => {
+const Postcard = ({ _id, description, link, picturePath, title, userId, type, userDP, name, tag }) => {
 
   if(picturePath === "undefined") return;
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  // console.log(user);
 
   const [isDisplay, setDisplay] = useState(false);
+
+  const savePost = async(e) => {
+    e.stopPropagation();
+    try{
+      const response = await fetch(`http://localhost:3001/save?userId=${user._id}&postId=${_id}`, {
+        method: "POST",
+      })
+      const data = await response.json(); 
+      if(data.message === "Post saved successfully"){
+        console.log("saved");
+      }
+
+    }catch(e){
+      console.log(e);
+    }
+  }
 
   const postPage = () => {
     const data = {
@@ -19,16 +37,15 @@ const Postcard = ({ description, link, picturePath, title, userId, type, userDP,
       type: type,
       userDP: userDP,
       name: name,
-      tag: tag
+      tag: tag,
+      _id: _id
     };
-    // console.log(data);
     dispatch(setPage({page: "post"}))
     dispatch(
       setCurrPost({
         currPost: data
       })
     )
-    // navigate("/post");
   };
 
   if(userDP === "undefined"){
@@ -56,11 +73,13 @@ const Postcard = ({ description, link, picturePath, title, userId, type, userDP,
 
       <img className={`${!isDisplay ? '' : 'brightness-[0.75]'} ${userDP ? 'mb-[75px]' : 'mb-11'} rounded-xl`} src={`http://localhost:3001/assets/${picturePath}`} alt="" />   
       <div className={`${isDisplay ? 'flex' : 'hidden'} ${userDP ? 'mt-[-123px]' : 'mt-[-90px]'} gap-1 ml-[3px] absolute`}>
-        <div className='bg-red-600 ml-1 px-3 py-2 rounded-3xl block text-white'>Save</div>
+        <div
+          onClick={(e) => savePost(e)} 
+          className='z-30 bg-red-600 ml-1 px-3 py-2 rounded-3xl block text-white'>Save</div>
         { 
           link &&
          <img 
-            onClick={() => window.location.href = `${link}`} 
+            onClick={(e) => {window.location.href = `${link}`; e.stopPropagation()}} 
             className="mt-[0.15rem] bg-white rounded-full h-[35px] p-[0.5rem] opacity-80" 
             src="../images/link.png" 
             alt="" 

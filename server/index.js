@@ -146,12 +146,28 @@ app.get("/posts", async(req, res) => {
     res.status(404).json({ message: err.message });
   }
 })
+
 app.get("/postsSize", async(req, res) => {
   try{
     const size = await NicPost.count();
     res.status(200).json(size);
   } catch(e){
-    res.status(404).json({ message: err.message });
+    res.status(404).json({ message: e.message });
+  }
+})
+
+app.post("/save", async(req, res) => {
+  try{
+    const postId = req.query.postId;
+    const userId = req.query.userId;
+    
+    const user = await NicUser.findById(userId);
+    user.savePost.push(postId);
+    await user.save();
+    res.json({ message: 'Post saved successfully' });
+    
+  } catch(e){
+    res.status(404).json({ message: e.message });
   }
 })
 

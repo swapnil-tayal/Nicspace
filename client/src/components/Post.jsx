@@ -9,7 +9,6 @@ const Post = () => {
   const dispatch = useDispatch();
 
   const toTop = () => {
-    console.log(1);
     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
   }
   
