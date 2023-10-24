@@ -6,6 +6,7 @@ import Feed from './Feed'
 import { BottomScrollListener } from 'react-bottom-scroll-listener';
 import { useState, useEffect } from 'react'
 import state, { setPost } from '../state';
+import Post from './Post';
 
 const shuffle = (array) => { 
   return array.map((a) => ({ sort: Math.random(), value: a }))
@@ -48,7 +49,7 @@ const Home = () => {
     // console.log(dataSh);
     // console.log(posts);
     const newPosts = posts.concat(dataSh);
-    console.log(newPosts);
+    // console.log(newPosts);
     dispatch(setPost({posts: newPosts}));
   }
 
@@ -57,13 +58,15 @@ const Home = () => {
   }, []);
 
   return (
-    <>
+    // <>
       <BottomScrollListener onBottom={() => updatePost()} >
         <Navbar />
         { currPage == "home" && <Feed /> }
         { currPage == 'create' && <CreatePost /> }
+        { currPage == 'post' && <Post /> }
+
       </BottomScrollListener>
-    </>
+    // </>
   )
 }
 

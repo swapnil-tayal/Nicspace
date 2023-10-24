@@ -1,12 +1,35 @@
 import React, { useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrPost, setPage } from '../state';
 
-const Postcard = ({ description, link, picturePath, title, userId, type, userDP, name }) => {
+const Postcard = ({ description, link, picturePath, title, userId, type, userDP, name, tag }) => {
 
-    if(picturePath === "undefined") return;
+  if(picturePath === "undefined") return;
+  const dispatch = useDispatch();
 
   const [isDisplay, setDisplay] = useState(false);
-  const navigate = useNavigate();
+
+  const postPage = () => {
+    const data = {
+      description: description,
+      link: link,
+      picturePath: picturePath,
+      title: title,
+      userId: userId,
+      type: type,
+      userDP: userDP,
+      name: name,
+      tag: tag
+    };
+    // console.log(data);
+    dispatch(setPage({page: "post"}))
+    dispatch(
+      setCurrPost({
+        currPost: data
+      })
+    )
+    // navigate("/post");
+  };
 
   if(userDP === "undefined"){
     userDP = null;
@@ -27,9 +50,9 @@ const Postcard = ({ description, link, picturePath, title, userId, type, userDP,
       </div>
     </> 
   )
-
   return (
-    <div className='' onMouseEnter={() => setDisplay(true)} onMouseLeave={() => setDisplay(false)}>
+    <>
+    <div onClick={() => postPage()} onMouseEnter={() => setDisplay(true)} onMouseLeave={() => setDisplay(false)}>
 
       <img className={`${!isDisplay ? '' : 'brightness-[0.75]'} ${userDP ? 'mb-[75px]' : 'mb-11'} rounded-xl`} src={`http://localhost:3001/assets/${picturePath}`} alt="" />   
       <div className={`${isDisplay ? 'flex' : 'hidden'} ${userDP ? 'mt-[-123px]' : 'mt-[-90px]'} gap-1 ml-[3px] absolute`}>
@@ -37,7 +60,7 @@ const Postcard = ({ description, link, picturePath, title, userId, type, userDP,
         { 
           link &&
          <img 
-            onClick={() => window.location.href = `https://${link}`} 
+            onClick={() => window.location.href = `${link}`} 
             className="mt-[0.15rem] bg-white rounded-full h-[35px] p-[0.5rem] opacity-80" 
             src="../images/link.png" 
             alt="" 
@@ -54,6 +77,7 @@ const Postcard = ({ description, link, picturePath, title, userId, type, userDP,
         )}
       </div>
     </div>
+    </>
   )
 }
 

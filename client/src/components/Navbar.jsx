@@ -14,7 +14,7 @@ const Navbar = () => {
           <div className='hidden sm:block'>
             <img className="w-[50px] mr-[10px]" src="../images/logo.png" alt="" /> 
           </div>
-          <div className={`${currPage=="home"?`bg-black text-white`:`bg-white text-black`} 
+          <div className={`${currPage=="home" || currPage=="post"?`bg-black text-white`:`bg-white text-black`} 
                           px-[1rem] py-3 text-base rounded-3xl font-medium`}
                onClick={() => {dispatch(setPage({page: "home"}))}}
           >Home</div>

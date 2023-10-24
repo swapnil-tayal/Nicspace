@@ -49,7 +49,7 @@ const Feed = () => {
   return (
       <div className='columns-6 col-span-4 gap-4 px-6 py-4'>
         {/* <div className='bg-green-500' > */}
-          {Array.from(uniqPost).map(({description, link, picturePath, title, userId, type, userDP, name}) => 
+          {Array.from(uniqPost).map(({description, link, picturePath, title, userId, type, userDP, name, tag}) => 
             <Postcard 
               key={Math.random()}
               description={description}
@@ -60,6 +60,7 @@ const Feed = () => {
               type={type}
               userDP={userDP}
               name={name}
+              tag={tag}
             />
           )}
       </div>

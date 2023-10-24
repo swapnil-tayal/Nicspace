@@ -6,6 +6,7 @@ import Home from "./components/Home"
 import { useDispatch } from "react-redux";
 import { setLogin, setPost } from "./state";
 import { useEffect } from 'react';
+import Post from './components/Post';
 
 function App() {
 
@@ -33,6 +34,9 @@ function App() {
           <Route 
             path='/home' 
             element={isAuth ? <Home /> : <Navigate to="/"/>} />
+          <Route
+            path='/post'
+            element={<Post />}/>
         </Routes>
       </BrowserRouter>
     </>
