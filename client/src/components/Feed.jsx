@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Postcard from './Postcard';
 import { useDispatch, useSelector } from "react-redux";
-import state, { setPost } from '../state';
-import { BottomScrollListener } from 'react-bottom-scroll-listener';
+import { setPost } from '../state';
 
 const shuffle = (array) => { 
   return array.map((a) => ({ sort: Math.random(), value: a }))

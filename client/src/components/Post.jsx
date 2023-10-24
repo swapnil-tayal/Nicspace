@@ -1,8 +1,7 @@
 import React from 'react'
 import Feed from './Feed';
-import {useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPage, setLogout } from '../state';
+import { setPage } from '../state';
 
 const Post = () => {
 

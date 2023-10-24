@@ -13,9 +13,6 @@ const shuffle = (array) => {
       .sort((a, b) => a.sort - b.sort)
       .map((a) => a.value); 
 }; 
-function removeDuplicates(arr) { 
-  return [...new Set(arr)]; 
-} 
 
 const Home = () => {
 
