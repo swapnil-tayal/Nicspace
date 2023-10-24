@@ -4,7 +4,7 @@ import Login from './components/Login';
 import { useSelector } from 'react-redux';
 import Home from "./components/Home"
 import { useDispatch } from "react-redux";
-import { setLogin } from "./state";
+import { setLogin, setPost } from "./state";
 import { useEffect } from 'react';
 
 function App() {
@@ -18,6 +18,9 @@ function App() {
   //     setLogin({
   //       user: null,
   //       token: null,
+  //     }),
+  //     setPost({
+  //       post:[]
   //     })
   //   )
   // })

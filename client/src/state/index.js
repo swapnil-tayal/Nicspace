@@ -23,6 +23,8 @@ export const authSlice = createSlice({
       console.log("hello from redux")
       state.user = null;
       state.token = null;
+      state.posts = [],
+      state.page = "home"
     },
     setPage: (state, action) => {
       state.page = action.payload.page;

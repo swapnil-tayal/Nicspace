@@ -137,8 +137,19 @@ app.post("/login", async (req, res) => {
 
 app.get("/posts", async(req, res) => {
   try{
-    const post = await NicPost.find();
+    // console.log(req.query.page);
+    const skipVal = req.query.page * 18;
+    const post = await NicPost.find().limit(18).skip(skipVal);
+    // const post = await NicPost.find();
     res.status(200).json(post);
+  } catch(e){
+    res.status(404).json({ message: err.message });
+  }
+})
+app.get("/postsSize", async(req, res) => {
+  try{
+    const size = await NicPost.count();
+    res.status(200).json(size);
   } catch(e){
     res.status(404).json({ message: err.message });
   }

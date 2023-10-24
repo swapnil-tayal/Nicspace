@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 const Postcard = ({ description, link, picturePath, title, userId, type, userDP, name }) => {
 
+    if(picturePath === "undefined") return;
+
   const [isDisplay, setDisplay] = useState(false);
   const navigate = useNavigate();
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Postcard from './Postcard';
 import { useDispatch, useSelector } from "react-redux";
 import state, { setPost } from '../state';
@@ -16,10 +16,23 @@ const Feed = () => {
   const posts = useSelector((state) => state.posts);
   let f = 0;
 
+  const uniqPost = [];
+  for(let i=0; i<posts.length; i++){
+    let flag = 0;
+    for(let j=0; j<uniqPost.length; j++){
+      if(uniqPost[j].picturePath === posts[i].picturePath){
+        flag = 1;
+        break;
+      }
+    }
+    if(flag === 0) uniqPost.push(posts[i]);
+  }
+
   const getUser = async() => {
+
     if(f == 1) return;
     f = 1;
-    const response = await fetch('http://localhost:3001/posts' ,{
+    const response = await fetch(`http://localhost:3001/posts?page=0` ,{
       method: "GET",
     });
     const data = await response.json();
@@ -31,14 +44,14 @@ const Feed = () => {
     getUser();
   }, []);
 
+  // console.log(uniqPost);
 
   return (
-    <BottomScrollListener onBottom={() => alert("hello")} >
       <div className='columns-6 col-span-4 gap-4 px-6 py-4'>
         {/* <div className='bg-green-500' > */}
-          {Array.from(posts).map(({description, link, picturePath, title, userId, type, userDP, name}) => 
+          {Array.from(uniqPost).map(({description, link, picturePath, title, userId, type, userDP, name}) => 
             <Postcard 
-              key={picturePath}
+              key={Math.random()}
               description={description}
               link={link}
               picturePath={picturePath}
@@ -50,7 +63,6 @@ const Feed = () => {
             />
           )}
       </div>
-    </BottomScrollListener>
   )
 }
 
