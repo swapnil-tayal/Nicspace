@@ -1,18 +1,13 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
 import Feed from './Feed';
 import {useEffect} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPage, setLogout } from '../state';
 
 const Post = () => {
 
-  // useEffect(() => {
-  //   // 👇️ scroll to top on page load
-  //   console.log("1");
-  //   window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
-  // }, []);
-
   const currPost = useSelector((state) => state.currPost);
-  // console.log(currPost.tag)
+  const dispatch = useDispatch();
 
   const toTop = () => {
     console.log(1);
@@ -21,9 +16,13 @@ const Post = () => {
   
   return (
     <>
+    <img 
+      onClick={() => {dispatch(setPage({page: "home"}))}}
+      className='w-[50px] ml-12 mt-10 hover:bg-[#e9e9e9] p-4 rounded-full absolute ' 
+      src="../images/backArrow.png" ></img>
     <div className='flex flex-row justify-center' >
-      <div className='p-10 rounded-2xl shadow-xl mt-6 flex flex-row justify-center gap-12'>
-        <img className="w-80 rounded-xl" src={`http://localhost:3001/assets/${currPost.picturePath}`} alt="" />   
+      <div className='p-10 rounded-2xl shadow-xl mt-6 flex flex-col md:flex-row justify-center gap-12'>
+        <img className="max-w-md rounded-xl" src={`http://localhost:3001/assets/${currPost.picturePath}`} alt="" />   
         <div className='w-72 mt-10 flex flex-col gap-3'>
           { currPost.link && <div className='underline' > {currPost.link} </div> }
           <div className='flex flex-row items-center justify-between'>
