@@ -162,14 +162,14 @@ app.post("/save", async(req, res) => {
     const userId = req.query.userId;
     
     const user = await NicUser.findById(userId);
-    console.log(user.savePost.length);
+    // console.log(user.savePost.length);
     if(user.savePost.includes(postId)){
       const ind = user.savePost.indexOf(postId);
       user.savePost.splice(ind, 1);
     }else{
       user.savePost.push(postId);
     }
-    console.log(user.savePost.length);
+    // console.log(user.savePost.length);
     await user.save();
     res.json({ message: 'Post saved successfully' });
     
