@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Feed from './Feed'
 import { BottomScrollListener } from 'react-bottom-scroll-listener';
 import { useState, useEffect } from 'react'
-import state, { setPost } from '../state';
+import { setPost } from '../state';
 import Post from './Post';
 
 const shuffle = (array) => { 
@@ -18,6 +18,7 @@ const Home = () => {
 
   const currPage = useSelector((state) => state.page);
   const posts = useSelector((state) => state.posts);
+  const user = useSelector((state) => state.user);
   const [pageNo, setPageNo] = useState(0);
   const dispatch = useDispatch();
   const [postSize, setPostSize] = useState(1);
@@ -27,31 +28,26 @@ const Home = () => {
       method: "GET"
     })
     const size = await response.json();
-    // console.log(size);
     setPostSize(size);  
   }
 
   const updatePost = async() => {
-
     // alert("hello");
     if(posts.length >= postSize) return;
     // setPageNo(pageNo+1);
     // console.log(pageNo);
-
     const response = await fetch(`http://localhost:3001/posts?page=${1}` ,{
       method: "GET",
     });
     const data = await response.json();
     const dataSh = shuffle(data);
-    // console.log(dataSh);
-    // console.log(posts);
     const newPosts = posts.concat(dataSh);
-    // console.log(newPosts);
     dispatch(setPost({posts: newPosts}));
-  }
+  }  
 
   useEffect(() => {
     getSize();
+    // console.log("home");
   }, []);
 
   return (

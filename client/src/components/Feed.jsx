@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Postcard from './Postcard';
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from '../state';
@@ -13,6 +13,8 @@ const Feed = () => {
 
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
+  const user = useSelector((state) => state.user);
+  const [savedPost, setSavedPost] = useState([]);
   let f = 0;
 
   const uniqPost = [];
@@ -39,8 +41,21 @@ const Feed = () => {
     dispatch(setPost({posts: newData}));
   }
 
+  const getSavedPost = async() => {
+
+    const response = await fetch(`http://localhost:3001/getSaved?userId=${user._id}`, {
+      method: "GET",
+    });
+    const data = await response.json();
+    // console.log(data);
+    // dispatch(setSavePost({ savePost: data }));
+    setSavedPost(data);
+  }
+
   useEffect(() => {
     getUser();
+    // console.log("feed");
+    getSavedPost();
   }, []);
 
   // console.log(uniqPost);
@@ -61,7 +76,9 @@ const Feed = () => {
               userDP={userDP}
               name={name}
               tag={tag}
+              isSaved={savedPost.includes(_id)}
             />
+            
           )}
       </div>
   )

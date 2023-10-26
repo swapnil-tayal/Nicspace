@@ -34,9 +34,6 @@ function App() {
           <Route 
             path='/home' 
             element={isAuth ? <Home /> : <Navigate to="/"/>} />
-          <Route
-            path='/post'
-            element={<Post />}/>
         </Routes>
       </BrowserRouter>
     </>

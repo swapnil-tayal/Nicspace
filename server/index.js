@@ -162,11 +162,29 @@ app.post("/save", async(req, res) => {
     const userId = req.query.userId;
     
     const user = await NicUser.findById(userId);
-    user.savePost.push(postId);
+    console.log(user.savePost.length);
+    if(user.savePost.includes(postId)){
+      const ind = user.savePost.indexOf(postId);
+      user.savePost.splice(ind, 1);
+    }else{
+      user.savePost.push(postId);
+    }
+    console.log(user.savePost.length);
     await user.save();
     res.json({ message: 'Post saved successfully' });
     
   } catch(e){
+    res.status(404).json({ message: e.message });
+  }
+})
+
+app.get("/getSaved", async(req, res) => {
+
+  try{
+    const userId = req.query.userId;
+    const user = await NicUser.findById(userId);
+    res.status(200).json(user.savePost);
+  }catch(e){
     res.status(404).json({ message: e.message });
   }
 })
