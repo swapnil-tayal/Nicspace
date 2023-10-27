@@ -7,7 +7,7 @@ const initialState = {
   posts: [],
   page: "home",
   currPost: null,
-  searchWord: ""
+  searchWord: "",
 };
 
 export const authSlice = createSlice({
@@ -38,7 +38,7 @@ export const authSlice = createSlice({
     },
     setSearchWord: (state, action) => {
       state.searchWord = action.payload.searchWord
-    }
+    },
   },
 });
 
@@ -49,6 +49,7 @@ export const {
   setPage,
   setPost,
   setCurrPost,
-  setSearchWord
+  setSearchWord,
+  setDark
 } = authSlice.actions;
 export default authSlice.reducer;

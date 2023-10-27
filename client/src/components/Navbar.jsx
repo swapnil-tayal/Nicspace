@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setPage, setLogout, setSearchWord } from '../state';
+import { setPage, setLogout, setSearchWord, setDark } from '../state';
 
 const Navbar = () => {
   
@@ -10,7 +10,6 @@ const Navbar = () => {
 
   const onKeyUpValue = (e) => {
     if(e.key === "Enter"){
-      console.log(searchVal);
       dispatch(setPage({page: "explore"}))
       dispatch(setSearchWord({ searchWord: searchVal }))
     }
@@ -39,10 +38,6 @@ const Navbar = () => {
                           px-[1rem] py-3 text-base rounded-3xl font-medium hover:cursor-pointer`}
                onClick={() => {dispatch(setPage({page: "profile"}))}}
           >Profile</div>
-          <div className={`hidden md:block ${currPage=="todark"?`bg-black text-white`:`bg-white text-black`} 
-                          px-[1rem] py-3 text-base rounded-3xl font-medium hover:cursor-pointer`}
-               onClick={() => {dispatch(setPage({page: "todark"}))}}
-          >To Dark</div>
           <div className={`hidden md:block ${currPage=="saved"?`bg-black text-white`:`bg-white text-black`} 
                           px-[1rem] py-3 text-base rounded-3xl font-medium hover:cursor-pointer`}
                onClick={() => {dispatch(setPage({page: "saved"}))}}
