@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setPage, setLogout, setSearchWord, setDark } from '../state';
+import { setPage, setLogout, setSearchWord } from '../state';
 
 const Navbar = () => {
   
@@ -20,7 +20,7 @@ const Navbar = () => {
     <>
       <div className='flex flex-row px-1 sm:px-[2rem] py-[1rem] justify-between' >
         <div className='flex flex-row'>
-          <div className='hidden sm:block'>
+          <div className='hidden md:block'>
             <img className="w-[50px] mr-[10px]" src="../images/logo.png" alt="" /> 
           </div>
           <div className={`${currPage=="home" || currPage=="post"?`bg-black text-white`:`bg-white text-black`} 
@@ -56,12 +56,18 @@ const Navbar = () => {
                     placeholder="Search" />
           </div>
         </div>
-        <div className='hidden sm:flex sm:flex-row sm:items-center bg-white'>
-          <img className="h-[40px]" src="../images/chat-icon.png" alt="" /> 
-          <img className="h-[40px]" src="../images/notification-icon.png" alt="" /> 
+        <div className='flex flex-row sm:items-center bg-white'>
+          <img className="sm:block hidden h-[40px]" src="../images/chat-icon.png" alt="" /> 
+          <img className="sm:block hidden h-[40px]" src="../images/notification-icon.png" alt="" /> 
           {user.picturePath 
-            ? <img className='h-[40px] rounded-full' src={`http://localhost:3001/assets/${user.picturePath}`} />
-            : <img className='h-[40px] rounded-full' src='../images/defaultUserDP.jpg'/>
+            ? <img 
+                  onClick={() => {dispatch(setPage({page: "profile"}))}}
+                  className='h-[40px] rounded-full' 
+                  src={`http://localhost:3001/assets/${user.picturePath}`} />
+            : <img 
+                  onClick={() => {dispatch(setPage({page: "profile"}))}}
+                  className='h-[40px] rounded-full' 
+                  src='../images/defaultUserDP.jpg'/>
           }
         </div>
       </div>

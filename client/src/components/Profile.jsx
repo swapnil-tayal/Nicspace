@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Postcard from './Postcard';
 import { HashLoader } from "react-spinners"
+import { setPage } from '../state';
 
 const Profile = () => {
 
@@ -11,6 +12,7 @@ const Profile = () => {
   const [myPosts, setMyPosts] = useState([]);
   const [anyPost, setAnyPost] = useState(true);
   const [anySave, setAnySave] = useState(true);
+  const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
 
   const getSavedPost = async() => {
@@ -53,7 +55,9 @@ const Profile = () => {
         <div className='mt-2 font-semibold text-4xl' > {user.name} </div>
         <div className='mt-2 font-light' >{user.email}</div>
         <div className='flex flex-row gap-2 mt-4'>
-          <div className='bg-[#e9e9e9] hover:cursor-pointer text-base font-medium px-4 py-3 rounded-3xl'>
+          <div 
+            onClick={() => {dispatch(setPage({page: "create"}))}}
+            className='bg-[#e9e9e9] hover:cursor-pointer text-base font-medium px-4 py-3 rounded-3xl'>
             Share 
           </div>
           <div className='bg-[#e9e9e9] hover:cursor-pointer text-base font-medium px-4 py-3 rounded-3xl'>

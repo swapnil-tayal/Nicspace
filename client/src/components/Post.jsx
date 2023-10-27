@@ -24,7 +24,7 @@ const Post = () => {
       src="../images/backArrow.png" ></img>
       
     <div className='flex flex-row justify-center' >
-      <div className='p-10 rounded-2xl shadow-xl mt-6 flex flex-col md:flex-row justify-center gap-12'>
+      <div className='p-10 rounded-2xl shadow-[0_3px_10px_rgb(0,0,0,0.2)] mt-6 flex flex-col md:flex-row justify-center gap-12'>
         <img className="max-w-md rounded-xl" src={`http://localhost:3001/assets/${currPost.picturePath}`} alt="" />   
         <div className='w-72 mt-10 flex flex-col gap-3'>
           { currPost.link && <div className='underline' > {currPost.link} </div> }
