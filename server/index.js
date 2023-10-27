@@ -211,6 +211,16 @@ app.get("/getCreated", async(req, res) => {
   }
 })
 
+app.get('/search', async(req, res) => {
+  try{
+    const word = req.query.word;
+    
+
+  }catch(e){
+    res.status(404).json({ message: e.message });
+  }
+})
+
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
