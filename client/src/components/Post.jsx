@@ -7,9 +7,6 @@ const Post = () => {
 
   const currPost = useSelector((state) => state.currPost);
   const dispatch = useDispatch();
-  const dark = useSelector((state) => state.isDark);
-  const darkTH = useSelector((state) => state.darkColor);
-  const whiteTH = useSelector((state) => state.whiteColor);
 
   const toTop = () => {
     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
@@ -19,11 +16,11 @@ const Post = () => {
     toTop();
   }, [])
 
-  return (
-    <div className={`${dark ? `bg-[${darkTH}] text-[${whiteTH}]` : "bg-white text-black" }`} >
+  return (  
+    <>
     <img 
       onClick={() => {dispatch(setPage({page: "home"}))}}
-      className={` ${dark ? "bg-[#e9e9e9]" : "hover:bg-[#e9e9e9]"} w-[50px] ml-12 mt-10 p-4 rounded-full absolute hidden lg:block`} 
+      className='w-[50px] ml-12 mt-10 hover:bg-[#e9e9e9] p-4 rounded-full absolute hidden lg:block' 
       src="../images/backArrow.png" ></img>
       
     <div className='flex flex-row justify-center' >
@@ -60,7 +57,7 @@ const Post = () => {
       <div className='flex flex-row justify-center mt-10 mb-4 font-semibold text-2xl' >More to explore</div>
       <Feed />
     </div>
-    </div>
+    </>
   )
 }
 
