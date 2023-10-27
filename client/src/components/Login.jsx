@@ -13,6 +13,7 @@ const Login = () => {
   const [isLoginState, setLoginState] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.token);
 
   const registerCall = async () => {
 
@@ -25,12 +26,11 @@ const Login = () => {
     
     const registerResponse = await fetch(`http://localhost:3001/register`, {
       method: "POST",
-      body: formData, 
+      body: formData
     })
     const isRegisSucc = await registerResponse.json();
     if(isRegisSucc){
       console.log('user registered');
-      navigate("/home");
     }
   }
 

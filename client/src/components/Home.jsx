@@ -25,10 +25,12 @@ const Home = () => {
   const [pageNo, setPageNo] = useState(0);
   const dispatch = useDispatch();
   const [postSize, setPostSize] = useState(1);
+  const token = useSelector((state) => state.token);
 
   const getSize = async() => {
     const response = await fetch(`http://localhost:3001/postsSize`, {
-      method: "GET"
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
     })
     const size = await response.json();
     setPostSize(size);  
@@ -41,6 +43,7 @@ const Home = () => {
     // console.log(pageNo);
     const response = await fetch(`http://localhost:3001/posts?page=${1}` ,{
       method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
     const dataSh = shuffle(data);

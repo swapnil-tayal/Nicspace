@@ -9,10 +9,12 @@ const Profile = () => {
   const [isSaved, setIsSaved] = useState(true);
   const [savedPost, setSavedPost] = useState([]);
   const [myPosts, setMyPosts] = useState([]);
+  const token = useSelector((state) => state.token);
 
   const getSavedPost = async() => {
     const response = await fetch(`http://localhost:3001/getSaved?userId=${user._id}&full=${1}`, {
       method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
     setSavedPost(data);
@@ -20,6 +22,7 @@ const Profile = () => {
   const getCreatedPosts = async() => {
     const response = await fetch(`http://localhost:3001/getCreated?userId=${user._id}`, {
       method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
     setMyPosts(data);

@@ -11,6 +11,7 @@ import multer from "multer";
 import { fileURLToPath } from "url";
 import path from "path";
 dotenv.config();
+import { verifyToken } from "./middleware/auth.js";
 
 const app = express();
 app.use(express.json());
@@ -128,26 +129,23 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({ msg: "Invalid credentials" });
     }
     const token = jwt.sign({id: user._id}, process.env.JWT_SALT);
-    // console.log(token);
     res.status(200).json({ user, token });
   } catch(err){
     res.status(500).json({ error: err.message });
   }
 });
 
-app.get("/posts", async(req, res) => {
+app.get("/posts", verifyToken, async(req, res) => {
   try{
-    // console.log(req.query.page);
     const skipVal = req.query.page * 18;
     const post = await NicPost.find().limit(18).skip(skipVal);
-    // const post = await NicPost.find();
     res.status(200).json(post);
   } catch(e){
     res.status(404).json({ message: err.message });
   }
 })
 
-app.get("/postsSize", async(req, res) => {
+app.get("/postsSize", verifyToken, async(req, res) => {
   try{
     const size = await NicPost.count();
     res.status(200).json(size);
@@ -156,7 +154,7 @@ app.get("/postsSize", async(req, res) => {
   }
 })
 
-app.post("/save", async(req, res) => {
+app.post("/save", verifyToken, async(req, res) => {
   try{
     const postId = req.query.postId;
     const userId = req.query.userId;
@@ -178,7 +176,7 @@ app.post("/save", async(req, res) => {
   }
 })
 
-app.get("/getSaved", async(req, res) => {
+app.get("/getSaved", verifyToken, async(req, res) => {
   try{
     const userId = req.query.userId;
     const user = await NicUser.findById(userId);
@@ -201,7 +199,7 @@ app.get("/getSaved", async(req, res) => {
   }
 })
 
-app.get("/getCreated", async(req, res) => {
+app.get("/getCreated", verifyToken, async(req, res) => {
   try{
     const userId = req.query.userId;
     const data = await NicPost.find({ userId: userId });
@@ -211,7 +209,7 @@ app.get("/getCreated", async(req, res) => {
   }
 })
 
-app.get('/search', async(req, res) => {
+app.get('/search', verifyToken, async(req, res) => {
   try{
     const word = req.query.word;
     const posts = await NicPost.find({ tag: word }).exec();

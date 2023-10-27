@@ -16,7 +16,9 @@ const Feed = () => {
   const posts = useSelector((state) => state.posts);
   const user = useSelector((state) => state.user);
   const [savedPost, setSavedPost] = useState([]);
+  const token = useSelector((state) => state.token)
   let f = 0;
+  // console.log(token);
 
   const uniqPost = [];
   for(let i=0; i<posts.length; i++){
@@ -36,6 +38,7 @@ const Feed = () => {
     f = 1;
     const response = await fetch(`http://localhost:3001/posts?page=0` ,{
       method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
     const newData = shuffle(data);
@@ -46,6 +49,7 @@ const Feed = () => {
 
     const response = await fetch(`http://localhost:3001/getSaved?userId=${user._id}&full=${0}`, {
       method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
     // console.log(data);

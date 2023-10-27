@@ -10,7 +10,8 @@ const Postcard = ({ _id, description, link, picturePath, title, userId, type, us
   const [isDisplay, setDisplay] = useState(false);
   const [isSelected, setIsSelected] = useState(isSaved);
   const [key, setKey] = useState(0);
-
+  const token = useSelector((state) => state.token);
+  
   if(isSaved && key < 2){
     setIsSelected(isSaved);
     setKey((k) => k + 1);
@@ -23,6 +24,7 @@ const Postcard = ({ _id, description, link, picturePath, title, userId, type, us
     try{
       const response = await fetch(`http://localhost:3001/save?userId=${user._id}&postId=${_id}`, {
         method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
       })
       const data = await response.json(); 
       if(data.message === "Post saved successfully"){
