@@ -179,11 +179,33 @@ app.post("/save", async(req, res) => {
 })
 
 app.get("/getSaved", async(req, res) => {
-
   try{
     const userId = req.query.userId;
     const user = await NicUser.findById(userId);
-    res.status(200).json(user.savePost);
+    const full = req.query.full;
+    
+    if(full === "1"){
+
+      const posts = user.savePost;
+      let data = [];
+      for(let i=0; i<posts.length; i++){
+         const x = await NicPost.findOne( {_id: posts[i]} );
+         data.push(x);
+      }
+      res.status(200).json(data);
+    }else{
+      res.status(200).json(user.savePost);
+    }
+  }catch(e){
+    res.status(404).json({ message: e.message });
+  }
+})
+
+app.get("/getCreated", async(req, res) => {
+  try{
+    const userId = req.query.userId;
+    const data = await NicPost.find({ userId: userId });
+    res.status(200).json(data);
   }catch(e){
     res.status(404).json({ message: e.message });
   }

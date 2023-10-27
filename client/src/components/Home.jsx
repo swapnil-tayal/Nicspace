@@ -8,6 +8,8 @@ import { useState, useEffect } from 'react'
 import { setPost } from '../state';
 import Post from './Post';
 import Profile from './Profile';
+import Save from './Save';
+import Explore from './Explore'
 
 const shuffle = (array) => { 
   return array.map((a) => ({ sort: Math.random(), value: a }))
@@ -55,10 +57,13 @@ const Home = () => {
     // <>
       <BottomScrollListener onBottom={() => updatePost()} >
         <Navbar />
+        
         { currPage == "home" && <Feed /> }
         { currPage == 'create' && <CreatePost /> }
         { currPage == 'post' && <Post /> }
         { currPage == 'profile' && <Profile /> }
+        { currPage == 'saved' && <Save /> }
+        { currPage == 'explore' && <Explore /> }
 
       </BottomScrollListener>
     // </>

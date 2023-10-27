@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Postcard from './Postcard';
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from '../state';
+import { HashLoader } from "react-spinners"
 
 const shuffle = (array) => { 
   return array.map((a) => ({ sort: Math.random(), value: a }))
@@ -43,7 +44,7 @@ const Feed = () => {
 
   const getSavedPost = async() => {
 
-    const response = await fetch(`http://localhost:3001/getSaved?userId=${user._id}`, {
+    const response = await fetch(`http://localhost:3001/getSaved?userId=${user._id}&full=${0}`, {
       method: "GET",
     });
     const data = await response.json();
@@ -61,6 +62,7 @@ const Feed = () => {
   // console.log(uniqPost);
 
   return (
+    <div>
       <div className='columns-2 sm:columns-3 md:columns-4 lg:columns-5 xl:columns-6 col-span-4 gap-4 px-6 py-4'>
         {/* <div className='bg-green-500' > */}
           {Array.from(uniqPost).map(({_id, description, link, picturePath, title, userId, type, userDP, name, tag}) => 
@@ -78,9 +80,13 @@ const Feed = () => {
               tag={tag}
               isSaved={savedPost.includes(_id)}
             />
-            
           )}
       </div>
+      
+      <div className='h-60 flex flex-col justify-center items-center' >
+          <HashLoader color="#000000"/>
+      </div> 
+    </div>
   )
 }
 

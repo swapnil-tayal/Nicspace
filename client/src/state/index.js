@@ -6,7 +6,8 @@ const initialState = {
   token: null,
   posts: [],
   page: "home",
-  currPost: null
+  currPost: null,
+  searchWord: ""
 };
 
 export const authSlice = createSlice({
@@ -34,6 +35,9 @@ export const authSlice = createSlice({
     },
     setCurrPost: (state, action) => {
       state.currPost = action.payload.currPost;
+    },
+    setSearchWord: (state, action) => {
+      state.searchWord = action.payload.searchWord
     }
   },
 });
@@ -44,6 +48,7 @@ export const {
   setLogout,
   setPage,
   setPost,
-  setCurrPost
+  setCurrPost,
+  setSearchWord
 } = authSlice.actions;
 export default authSlice.reducer;
