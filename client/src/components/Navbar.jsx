@@ -7,6 +7,7 @@ const Navbar = () => {
   const currPage = useSelector((state) => state.page);
   const dispatch = useDispatch();
   const [searchVal, setVal] = useState("");
+  const user = useSelector((state) => state.user);
 
   const onKeyUpValue = (e) => {
     if(e.key === "Enter"){
@@ -55,10 +56,13 @@ const Navbar = () => {
                     placeholder="Search" />
           </div>
         </div>
-        <div className='hidden sm:flex sm:flex-row bg-white'>
-          <img className="mt-[6px] h-[40px]" src="../images/chat-icon.png" alt="" /> 
-          <img className="mt-[6px] h-[40px]" src="../images/notification-icon.png" alt="" /> 
-          <img className="mt-[6px] h-[40px]" src="../images/chat-icon.png" alt="" /> 
+        <div className='hidden sm:flex sm:flex-row sm:items-center bg-white'>
+          <img className="h-[40px]" src="../images/chat-icon.png" alt="" /> 
+          <img className="h-[40px]" src="../images/notification-icon.png" alt="" /> 
+          {user.picturePath 
+            ? <img className='h-[40px] rounded-full' src={`http://localhost:3001/assets/${user.picturePath}`} />
+            : <img className='h-[40px] rounded-full' src='../images/defaultUserDP.jpg'/>
+          }
         </div>
       </div>
     </>

@@ -13,7 +13,6 @@ const Login = () => {
   const [isLoginState, setLoginState] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.token);
 
   const registerCall = async () => {
 

@@ -9,6 +9,8 @@ const Profile = () => {
   const [isSaved, setIsSaved] = useState(true);
   const [savedPost, setSavedPost] = useState([]);
   const [myPosts, setMyPosts] = useState([]);
+  const [anyPost, setAnyPost] = useState(true);
+  const [anySave, setAnySave] = useState(true);
   const token = useSelector((state) => state.token);
 
   const getSavedPost = async() => {
@@ -17,6 +19,9 @@ const Profile = () => {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
+    if(data.length === 0){
+      setAnySave(false);
+    }
     setSavedPost(data);
   }
   const getCreatedPosts = async() => {
@@ -25,6 +30,9 @@ const Profile = () => {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
+    if(data.length === 0){
+      setAnyPost(false);
+    }
     setMyPosts(data);
   }
 
@@ -65,12 +73,14 @@ const Profile = () => {
         </div>
       </div>
       { isSaved ? 
-
-        savedPost.length == 0 ?
-
+          savedPost.length == 0 && anySave ?
           <div className='h-60 flex flex-col justify-center items-center' >
             <HashLoader color="#000000"/>
           </div> 
+          : (!anySave) ?
+            <div className="flex flex-row justify-center items-center h-56 font-semibold text-3xl " > 
+              Try Saving Some Posts 
+            </div>
           :
           <div className='mt-6 columns-2 sm:columns-3 md:columns-4 lg:columns-5 xl:columns-6 col-span-4 gap-4 px-6 py-4'>
               {Array.from(savedPost).map(({_id, description, link, picturePath, title, userId, type, userDP, name, tag}) => 
@@ -91,10 +101,14 @@ const Profile = () => {
               )}
           </div>
         :
-        myPosts.length == 0 ?
+        myPosts.length == 0 && anyPost ?
           <div className='h-60 flex flex-col justify-center items-center' >
             <HashLoader color="#000000"/>
           </div> 
+          : (!anyPost) ?
+            <div className="flex flex-row justify-center items-center h-56 font-semibold text-3xl " > 
+              Lets Create Some Nic's 
+            </div>
           :
           <div className='mt-6 columns-2 sm:columns-3 md:columns-4 lg:columns-5 xl:columns-6 col-span-4 gap-4 px-6 py-4'>
               {Array.from(myPosts).map(({_id, description, link, picturePath, title, userId, type, userDP, name, tag}) => 
