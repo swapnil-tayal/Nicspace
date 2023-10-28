@@ -59,7 +59,7 @@ const Navbar = () => {
         <div className='flex flex-row sm:items-center bg-white'>
           <img className="sm:block hidden h-[40px]" src="../images/chat-icon.png" alt="" /> 
           <img className="sm:block hidden h-[40px]" src="../images/notification-icon.png" alt="" /> 
-          {user.picturePath 
+          {(user.picturePath && user.picturePath != "undefined_undefined")
             ? <img 
                   onClick={() => {dispatch(setPage({page: "profile"}))}}
                   className='h-[40px] rounded-full' 

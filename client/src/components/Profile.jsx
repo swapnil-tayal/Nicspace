@@ -48,7 +48,7 @@ const Profile = () => {
     <div>
 
       <div className='mt-4 flex flex-col items-center'>
-        {user.picturePath 
+        {(user.picturePath && user.picturePath != "undefined_undefined")
           ? <img className='h-32 rounded-full' src={`http://localhost:3001/assets/${user.picturePath}`} />
           : <img className='h-32 rounded-full' src='../images/defaultUserDP.jpg'/>
         }

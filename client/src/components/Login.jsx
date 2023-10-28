@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../state";
 import Dropzone from "react-dropzone";
+import validator from "validator";
 
 const Login = () => {
 
@@ -11,30 +12,62 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [isLoginState, setLoginState] = useState(true);
+  const [isEmail, setIsEmail] = useState(true);
+  const [isCred, setCred] = useState(true);
+  const [isLoginSucess, setIsLoginSucess] = useState(false);
+  const [isEmailTaken, setIsEmailTaken] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const validateEmail = () => {
+    return (validator.isEmail(email));
+  };
+
   const registerCall = async () => {
 
+    setIsEmail(true)
+    setCred(true)
+    setIsLoginSucess(false)
+    setIsEmailTaken(false);
+
+    if(!validateEmail()){
+      setIsEmail(false);
+      return;
+    }
     const formData = new FormData();
     formData.append("email", email);
     formData.append("name", name);
     formData.append("password", password);
     formData.append("picture", image);
-    formData.append("picturePath", image.name);
+    if(image){
+      formData.append("picturePath", image.name);
+    }
     
     const registerResponse = await fetch(`http://localhost:3001/register`, {
       method: "POST",
       body: formData
     })
     const isRegisSucc = await registerResponse.json();
-    if(isRegisSucc){
+    console.log(isRegisSucc);
+    if(isRegisSucc.email === email){
+      setIsLoginSucess(true);
       console.log('user registered');
+    }else{
+      setIsEmailTaken(true);
     }
   }
 
   const loginCall = async () => {
 
+    setIsEmail(true)
+    setCred(true)
+    setIsLoginSucess(false)
+    setIsEmailTaken(false);
+
+    if(!validateEmail()){
+      setIsEmail(false);
+      return;
+    }
     const data = {
       email: email,
       password: password,
@@ -45,8 +78,10 @@ const Login = () => {
       body: JSON.stringify(data), 
     })
     const isLoginSucc = await loginResponse.json();
-    if(isLoginSucc){
-      // console.log(isLoginSucc.user, isLoginSucc.token);
+    if(isLoginSucc.msg === "Invalid credentials"){
+      setCred(false);
+      console.log("invalid");
+    }else{
       dispatch(
         setLogin({
           user: isLoginSucc.user,
@@ -54,8 +89,6 @@ const Login = () => {
         })
       )
       navigate("/home");
-    }else{
-      console.log("invalid");
     }
   };
 
@@ -94,7 +127,8 @@ const Login = () => {
                       value={email} 
                       onChange={(e) => setEmail(e.target.value)} 
               /> 
-
+              {!isEmail && <div className="text-red-400 text-sm ml-2">enter a valid email</div>}
+              {isEmailTaken && <div className="text-red-400 text-sm ml-2">email already taken</div>}
               {!isLoginState && 
                 <div>
                   <div className="items-start ml-[7px] mb-[5px] mt-[10px]">Name</div>
@@ -140,9 +174,13 @@ const Login = () => {
                       value={password} 
                       onChange={(e) => setPassword(e.target.value)} 
               /> 
+              {isLoginSucess && <div className="text-black font-semibold text-sm ml-2">Register Sucess, Try Login</div>}
+              
+              {!isCred && <div className="text-red-400 text-sm ml-2">your email or password not valid</div>}
               <div className="flex justify-center items-center" >
               {!isLoginState 
-              ? <button 
+              ?
+                <button 
                     type="submit" 
                     className="w-[100%] bg-red-600 hover:bg-red-700 text-gray-50 mt-[1rem] rounded-3xl p-3" 
                 >Create Account
