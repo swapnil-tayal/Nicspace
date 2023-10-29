@@ -37,7 +37,7 @@ const Home = () => {
   }
 
   const updatePost = async() => {
-    // alert("hello");
+    alert("hello");
     if(posts.length >= postSize) return;
     // setPageNo(pageNo+1);
     // console.log(pageNo);
@@ -53,11 +53,10 @@ const Home = () => {
 
   useEffect(() => {
     getSize();
-    // console.log("home");
   }, []);
 
   return (
-    // <>
+    <>
       <BottomScrollListener onBottom={() => updatePost()} >
         <Navbar />
         
@@ -69,7 +68,7 @@ const Home = () => {
         { currPage == 'explore' && <Explore /> }
 
       </BottomScrollListener>
-    // </>
+    </>
   )
 }
 
