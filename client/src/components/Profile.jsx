@@ -49,7 +49,7 @@ const Profile = () => {
 
       <div className='mt-4 flex flex-col items-center'>
         {(user.picturePath && user.picturePath != "undefined_undefined")
-          ? <img className='h-32 rounded-full' src={`http://localhost:3001/assets/${user.picturePath}`} />
+          ? <img className='h-32 rounded-full' src={`https://firebasestorage.googleapis.com/v0/b/nicterest.appspot.com/o/${user.picturePath}?alt=media`} />
           : <img className='h-32 rounded-full' src='../images/defaultUserDP.jpg'/>
         }
         <div className='mt-2 font-semibold text-4xl' > {user.name} </div>

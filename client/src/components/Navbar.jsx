@@ -63,7 +63,7 @@ const Navbar = () => {
             ? <img 
                   onClick={() => {dispatch(setPage({page: "profile"}))}}
                   className='h-[40px] rounded-full' 
-                  src={`http://localhost:3001/assets/${user.picturePath}`} />
+                  src={`https://firebasestorage.googleapis.com/v0/b/nicterest.appspot.com/o/${user.picturePath}?alt=media`} />
             : <img 
                   onClick={() => {dispatch(setPage({page: "profile"}))}}
                   className='h-[40px] rounded-full' 

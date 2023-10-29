@@ -62,16 +62,10 @@ const Postcard = ({ _id, description, link, picturePath, title, userId, type, us
   if(type == "video") return (
     <>
       <video className="mb-11 rounded-xl" loop autoPlay muted>
-        <source src={`http://localhost:3001/assets/${picturePath}`} type="video/mp4"/>
+        <source src={`https://firebasestorage.googleapis.com/v0/b/nicterest.appspot.com/o/${picturePath}?alt=media`} type="video/mp4"/>
       </video> 
-      <div className='mt-[-42px] ml-2 absolute font-semibold'>
+      <div className={`mt-[-42px] ml-2 absolute font-semibold`}>
         <div>{title}</div>
-        {userDP && (
-          <>
-            <img className="w-[35px] h-[35px] rounded-full" src={`http://localhost:3001/assets/${userDP}`} alt="" /> 
-            <div className='ml-[40px] mt-[-30px] font-normal' >User {name}</div>
-          </> 
-        )}
       </div>
     </> 
   )
@@ -80,7 +74,9 @@ const Postcard = ({ _id, description, link, picturePath, title, userId, type, us
     <>
     <div className='hover:cursor-zoom-in' onClick={() => postPage()} onMouseEnter={() => {setDisplay(true)}} onMouseLeave={() => setDisplay(false)}>
 
-      <img className={`${!isDisplay ? '' : 'brightness-[0.75]'} ${userDP ? 'mb-[75px]' : 'mb-11'} rounded-xl`} src={`http://localhost:3001/assets/${picturePath}`} alt="" />   
+      <img  className={`${!isDisplay ? '' : 'brightness-[0.75]'} ${userDP ? 'mb-[75px]' : 'mb-11'} rounded-xl`} 
+            src={`https://firebasestorage.googleapis.com/v0/b/nicterest.appspot.com/o/${picturePath}?alt=media`} 
+            alt="" />   
       <div className={`${isDisplay ? 'flex' : 'hidden'} ${userDP ? 'mt-[-123px]' : 'mt-[-90px]'} gap-1 ml-[3px] absolute`}>
         <div
           onClick={(e) => savePostFun(e)} 
@@ -102,7 +98,7 @@ const Postcard = ({ _id, description, link, picturePath, title, userId, type, us
         <div>{title}</div>
         {userDP && (
           <>
-            <img className="w-[35px] h-[35px] rounded-full" src={`http://localhost:3001/assets/${userDP}`} alt="" /> 
+            <img className="w-[35px] h-[35px] rounded-full" src={`https://firebasestorage.googleapis.com/v0/b/nicterest.appspot.com/o/${userDP}?alt=media`} alt="" /> 
             <div className='ml-[40px] mt-[-30px] font-normal' >{name}</div>
           </> 
         )}

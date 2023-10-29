@@ -11,6 +11,14 @@ import multer from "multer";
 import { fileURLToPath } from "url";
 import path from "path";
 dotenv.config();
+
+// firebase
+import { getStorage, ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { initializeApp } from "firebase/app";
+import config from "./config/firebase.config.js"
+initializeApp(config.firebaseConfig);
+
+// controllers
 import { verifyToken } from "./middleware/auth.js";
 import { login } from "./controllers/login.js";
 import { getPosts, getPostSize} from "./controllers/posts.js";
@@ -27,29 +35,23 @@ const PORT = process.env.PORT || 6000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
-let date;
 
-const update = () => (
-  date = Date.now()
-)
+const storage = getStorage();
 
-const storage = multer.diskStorage({
-  destination:function(req, file, cb){
-      cb(null, "public/assets");
-  },
-  filename: function(req, file, cb){
-    update();
-    cb(null, date + "_" + file.originalname);
-  }
-})
-
-const upload = multer({ storage });
+const upload = multer({ storage: multer.memoryStorage() });
 
 app.post("/posts/video", upload.single("video"), async(req, res) => {
   try{
     const { userId, description, picturePath, title, link, tag, userDP } = req.body;
     const tags = tag.split(" ");    
-    const newPath = date + "_" + picturePath;
+    
+    const newPath = Date.now() + "_" + picturePath;
+
+    const storageRef = ref(storage, newPath);
+    const metadata = {
+      contentType: req.file.mimetype,
+    };
+    const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
     
     const user = await NicUser.findById(userId);
     const newPost = new NicPost({
@@ -74,10 +76,18 @@ app.post("/posts/video", upload.single("video"), async(req, res) => {
 
 app.post("/posts/picture", upload.single("picture"), async(req, res) => {
   try{
+
     const { userId, description, picturePath, title, link, tag, userDP } = req.body;
+
+    const newPath = Date.now() + "_" + picturePath;
+
+    const storageRef = ref(storage, newPath);
+    const metadata = {
+      contentType: req.file.mimetype,
+    };
+    const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
+
     const tags = tag.split(" ");
-    // console.log(picturePath)
-    const newPath = date + "_" + picturePath;
 
     const user = await NicUser.findById(userId);
     const newPost = new NicPost({
@@ -100,11 +110,16 @@ app.post("/posts/picture", upload.single("picture"), async(req, res) => {
 }}
 );
 
-// register
 app.post("/register", upload.single("picture"), async (req, res) => {
   try {
     const { name, email, password, picturePath } = req.body;
-    const newPath = date + "_" + picturePath;
+    const newPath = Date.now() + "_" + picturePath;
+
+    const storageRef = ref(storage, newPath);
+    const metadata = {
+      contentType: req.file.mimetype,
+    };
+    const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
     // encryption
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
@@ -120,7 +135,6 @@ app.post("/register", upload.single("picture"), async (req, res) => {
     res.status(500).json({ error: err });
   }}
 );
-
 
 app.post("/login", login);
 app.get("/posts", verifyToken, getPosts);

@@ -25,7 +25,11 @@ const Post = () => {
       
     <div className='flex flex-row justify-center' >
       <div className='p-10 rounded-2xl shadow-[0_3px_10px_rgb(0,0,0,0.2)] mt-6 flex flex-col md:flex-row justify-center gap-12'>
-        <img className="max-w-md rounded-xl" src={`http://localhost:3001/assets/${currPost.picturePath}`} alt="" />   
+        <img 
+          className="max-w-md rounded-xl" 
+          src={`https://firebasestorage.googleapis.com/v0/b/nicterest.appspot.com/o/${currPost.picturePath}?alt=media`} 
+          alt="" 
+        />   
         <div className='w-72 mt-10 flex flex-col gap-3'>
           { currPost.link && <div className='underline' > {currPost.link} </div> }
           <div className='flex flex-row items-center justify-between'>
@@ -38,7 +42,7 @@ const Post = () => {
               <img  className='w-[50px] mr-3 rounded-full inline-block' 
                     src={ currPost.userDP === undefined || currPost.userDP === null
                         ? `../images/defaultUserDP.jpg`
-                        : `http://localhost:3001/assets/${currPost.userDP}`
+                        : `https://firebasestorage.googleapis.com/v0/b/nicterest.appspot.com/o/${currPost.userDP}?alt=media`
                       } 
               ></img>
               <p className='font-semibold' > {currPost.name} </p>
