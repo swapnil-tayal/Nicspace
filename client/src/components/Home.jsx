@@ -37,7 +37,7 @@ const Home = () => {
   }
 
   const updatePost = async() => {
-    alert("hello");
+    // alert("hello");
     if(posts.length >= postSize) return;
     // setPageNo(pageNo+1);
     // console.log(pageNo);
