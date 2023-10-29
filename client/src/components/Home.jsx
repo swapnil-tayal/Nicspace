@@ -56,19 +56,17 @@ const Home = () => {
   }, []);
 
   return (
-    <>
-      <BottomScrollListener onBottom={() => updatePost()} >
-        <Navbar />
-        
-        { currPage == "home" && <Feed /> }
-        { currPage == 'create' && <CreatePost /> }
-        { currPage == 'post' && <Post /> }
-        { currPage == 'profile' && <Profile /> }
-        { currPage == 'saved' && <Save /> }
-        { currPage == 'explore' && <Explore /> }
+    <BottomScrollListener onBottom={() => updatePost()} >
+      <Navbar />
+      
+      { currPage == "home" && <Feed /> }
+      { currPage == 'create' && <CreatePost /> }
+      { currPage == 'post' && <Post /> }
+      { currPage == 'profile' && <Profile /> }
+      { currPage == 'saved' && <Save /> }
+      { currPage == 'explore' && <Explore /> }
 
-      </BottomScrollListener>
-    </>
+    </BottomScrollListener>
   )
 }
 
