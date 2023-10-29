@@ -12,6 +12,11 @@ import { fileURLToPath } from "url";
 import path from "path";
 dotenv.config();
 import { verifyToken } from "./middleware/auth.js";
+import { login } from "./controllers/login.js";
+import { getPosts, getPostSize} from "./controllers/posts.js";
+import { saveThePost, getSavedPosts } from "./controllers/savePosts.js";
+import { createdPost } from "./controllers/createdPosts.js";
+import { searchPosts } from "./controllers/searchPosts.js";
 
 const app = express();
 app.use(express.json());
@@ -64,8 +69,8 @@ app.post("/posts/video", upload.single("video"), async(req, res) => {
 
   }catch(e){
     res.status(409).json({ message: e.message });
-  }
-})
+  }}
+);
 
 app.post("/posts/picture", upload.single("picture"), async(req, res) => {
   try{
@@ -92,8 +97,8 @@ app.post("/posts/picture", upload.single("picture"), async(req, res) => {
 
   }catch(e){
     res.status(409).json({ message: e.message });
-  }
-});
+}}
+);
 
 // register
 app.post("/register", upload.single("picture"), async (req, res) => {
@@ -113,112 +118,18 @@ app.post("/register", upload.single("picture"), async (req, res) => {
     res.status(201).json(savedNicUser);
   } catch (err) {
     res.status(500).json({ error: err });
-  }
-});
+  }}
+);
 
-//login
-app.post("/login", async (req, res) => {
-  try{
-    const { email, password } = req.body;
-    const user = await NicUser.findOne({ email: email });
-    if(!user){
-      return res.status(400).json({ msg: "User not exist" });
-    }
-    const isMatchPass = await bcrypt.compare(password, user.password);
-    if(!isMatchPass){
-      return res.status(400).json({ msg: "Invalid credentials" });
-    }
-    const token = jwt.sign({id: user._id}, process.env.JWT_SALT);
-    res.status(200).json({ user, token });
-  } catch(err){
-    res.status(500).json({ error: err.message });
-  }
-});
 
-app.get("/posts", verifyToken, async(req, res) => {
-  try{
-    const skipVal = req.query.page * 18;
-    const post = await NicPost.find().limit(18).skip(skipVal);
-    res.status(200).json(post);
-  } catch(e){
-    res.status(404).json({ message: err.message });
-  }
-})
+app.post("/login", login);
+app.get("/posts", verifyToken, getPosts);
+app.get("/postsSize", verifyToken, getPostSize);
+app.post("/save", verifyToken, saveThePost);
+app.get("/getSaved", verifyToken, getSavedPosts);
+app.get("/getCreated", verifyToken, createdPost)
+app.get('/search', verifyToken, searchPosts);
 
-app.get("/postsSize", verifyToken, async(req, res) => {
-  try{
-    const size = await NicPost.count();
-    res.status(200).json(size);
-  } catch(e){
-    res.status(404).json({ message: e.message });
-  }
-})
-
-app.post("/save", verifyToken, async(req, res) => {
-  try{
-    const postId = req.query.postId;
-    const userId = req.query.userId;
-    
-    const user = await NicUser.findById(userId);
-    // console.log(user.savePost.length);
-    if(user.savePost.includes(postId)){
-      const ind = user.savePost.indexOf(postId);
-      user.savePost.splice(ind, 1);
-    }else{
-      user.savePost.push(postId);
-    }
-    // console.log(user.savePost.length);
-    await user.save();
-    res.json({ message: 'Post saved successfully' });
-    
-  } catch(e){
-    res.status(404).json({ message: e.message });
-  }
-})
-
-app.get("/getSaved", verifyToken, async(req, res) => {
-  try{
-    const userId = req.query.userId;
-    const user = await NicUser.findById(userId);
-    const full = req.query.full;
-    
-    if(full === "1"){
-
-      const posts = user.savePost;
-      let data = [];
-      for(let i=0; i<posts.length; i++){
-         const x = await NicPost.findOne( {_id: posts[i]} );
-         data.push(x);
-      }
-      res.status(200).json(data);
-    }else{
-      res.status(200).json(user.savePost);
-    }
-  }catch(e){
-    res.status(404).json({ message: e.message });
-  }
-})
-
-app.get("/getCreated", verifyToken, async(req, res) => {
-  try{
-    const userId = req.query.userId;
-    const data = await NicPost.find({ userId: userId });
-    res.status(200).json(data);
-  }catch(e){
-    res.status(404).json({ message: e.message });
-  }
-})
-
-app.get('/search', verifyToken, async(req, res) => {
-  try{
-    const word = req.query.word;
-    const posts = await NicPost.find({ tag: word }).exec();
-    res.status(200).json(posts);
-
-  }catch(e){
-    res.status(404).json({ message: e.message });
-  }
-})
 
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
