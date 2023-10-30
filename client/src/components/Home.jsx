@@ -21,14 +21,14 @@ const Home = () => {
 
   const currPage = useSelector((state) => state.page);
   const posts = useSelector((state) => state.posts);
-  const user = useSelector((state) => state.user);
   const [pageNo, setPageNo] = useState(0);
   const dispatch = useDispatch();
   const [postSize, setPostSize] = useState(1);
   const token = useSelector((state) => state.token);
+  const host = useSelector((state) => state.host);
 
   const getSize = async() => {
-    const response = await fetch(`http://localhost:3001/postsSize`, {
+    const response = await fetch(`http://${host}:3001/postsSize`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -39,9 +39,9 @@ const Home = () => {
   const updatePost = async() => {
     // alert("hello");
     if(posts.length >= postSize) return;
-    // setPageNo(pageNo+1);
-    // console.log(pageNo);
-    const response = await fetch(`http://localhost:3001/posts?page=${1}` ,{
+    setPageNo(pageNo+1);
+    console.log(pageNo);
+    const response = await fetch(`http://${host}:3001/posts?page=${1}` ,{
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -59,12 +59,12 @@ const Home = () => {
     <BottomScrollListener onBottom={() => updatePost()} >
       <Navbar />
       
-      { currPage == "home" && <Feed /> }
-      { currPage == 'create' && <CreatePost /> }
-      { currPage == 'post' && <Post /> }
-      { currPage == 'profile' && <Profile /> }
-      { currPage == 'saved' && <Save /> }
-      { currPage == 'explore' && <Explore /> }
+      { currPage === "home" && <Feed /> }
+      { currPage === 'create' && <CreatePost /> }
+      { currPage === 'post' && <Post /> }
+      { currPage === 'profile' && <Profile /> }
+      { currPage === 'saved' && <Save /> }
+      { currPage === 'explore' && <Explore /> }
 
     </BottomScrollListener>
   )

@@ -15,9 +15,10 @@ const Profile = () => {
   const [anySave, setAnySave] = useState(true);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
+  const host = useSelector((state) => state.host);
 
   const getSavedPost = async() => {
-    const response = await fetch(`http://localhost:3001/getSaved?userId=${user._id}&full=${1}`, {
+    const response = await fetch(`http://${host}:3001/getSaved?userId=${user._id}&full=${1}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -28,7 +29,7 @@ const Profile = () => {
     setSavedPost(data);
   }
   const getCreatedPosts = async() => {
-    const response = await fetch(`http://localhost:3001/getCreated?userId=${user._id}`, {
+    const response = await fetch(`http://${host}:3001/getCreated?userId=${user._id}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -49,9 +50,9 @@ const Profile = () => {
     <div>
 
       <div className='mt-4 flex flex-col items-center'>
-        {(user.picturePath && user.picturePath != "undefined_undefined")
-          ? <img className='h-32 rounded-full' src={`https://firebasestorage.googleapis.com/v0/b/nicterest.appspot.com/o/${user.picturePath}?alt=media`} />
-          : <img className='h-32 rounded-full' src={defaultDp}/>
+        {(user.picturePath && user.picturePath !== "undefined_undefined")
+          ? <img alt='d' className='h-32 rounded-full' src={`https://firebasestorage.googleapis.com/v0/b/nicterest.appspot.com/o/${user.picturePath}?alt=media`} />
+          : <img alt='d' className='h-32 rounded-full' src={defaultDp}/>
         }
         <div className='mt-2 font-semibold text-4xl' > {user.name} </div>
         <div className='mt-2 font-light' >{user.email}</div>
@@ -78,7 +79,7 @@ const Profile = () => {
         </div>
       </div>
       { isSaved ? 
-          savedPost.length == 0 && anySave ?
+          savedPost.length === 0 && anySave ?
           <div className='h-60 flex flex-col justify-center items-center' >
             <HashLoader color="#000000"/>
           </div> 
@@ -106,7 +107,7 @@ const Profile = () => {
               )}
           </div>
         :
-        myPosts.length == 0 && anyPost ?
+        myPosts.length === 0 && anyPost ?
           <div className='h-60 flex flex-col justify-center items-center' >
             <HashLoader color="#000000"/>
           </div> 

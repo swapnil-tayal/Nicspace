@@ -17,6 +17,7 @@ const CreatePost = () => {
   const [isPic, setPic] = useState(true);
 
   const user = useSelector((state) => state.user);
+  const host = useSelector((state) => state.host);
 
   // console.log(user);
 
@@ -35,7 +36,7 @@ const CreatePost = () => {
     formData.append("tag", tag);
     formData.append("userDP", user.picturePath)
 
-    const response = await fetch(`http://localhost:3001/posts/picture`, {
+    const response = await fetch(`http://${host}:3001/posts/picture`, {
       method: "POST",
       body: formData,
     })
@@ -65,7 +66,7 @@ const CreatePost = () => {
     formData.append("tag", tag);
     formData.append("userDP", user.picturePath)
 
-    const response = await fetch(`http://localhost:3001/posts/video`, {
+    const response = await fetch(`http://${host}:3001/posts/video`, {
       method: "POST",
       body: formData,
     })

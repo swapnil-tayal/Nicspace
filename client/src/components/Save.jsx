@@ -9,9 +9,10 @@ const Save = () => {
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const [anySave, setAnySave] = useState(true);
+  const host = useSelector((state) => state.host);
 
   const getSavedPost = async() => {
-    const response = await fetch(`http://localhost:3001/getSaved?userId=${user._id}&full=${1}`, {
+    const response = await fetch(`http://${host}:3001/getSaved?userId=${user._id}&full=${1}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -29,7 +30,7 @@ const Save = () => {
 
   return (
     <>
-      { savedPost.length == 0 && anySave ?
+      { savedPost.length === 0 && anySave ?
         <div className='h-96 flex flex-col justify-center items-center' >
           <HashLoader color="#000000"/>
         </div>

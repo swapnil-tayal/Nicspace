@@ -8,6 +8,7 @@ const initialState = {
   page: "home",
   currPost: null,
   searchWord: "",
+  host:"localhost"
 };
 
 export const authSlice = createSlice({
@@ -25,7 +26,9 @@ export const authSlice = createSlice({
       console.log("hello from redux");
       state.user = null;
       state.token = null;
-      // (state.posts = []), (state.page = "home");
+      state.posts = [];
+      state.page = "home";
+      state.host = "localhost";
     },
     setPage: (state, action) => {
       state.page = action.payload.page;

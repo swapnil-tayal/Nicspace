@@ -17,6 +17,7 @@ const Feed = () => {
   const user = useSelector((state) => state.user);
   const [savedPost, setSavedPost] = useState([]);
   const token = useSelector((state) => state.token)
+  const host = useSelector((state) => state.host);
   let f = 0;
   // console.log(token);
 
@@ -34,9 +35,9 @@ const Feed = () => {
 
   const getUser = async() => {
 
-    if(f == 1) return;
+    if(f === 1) return;
     f = 1;
-    const response = await fetch(`http://localhost:3001/posts?page=0` ,{
+    const response = await fetch(`http://${host}:3001/posts?page=0` ,{
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -47,7 +48,7 @@ const Feed = () => {
 
   const getSavedPost = async() => {
 
-    const response = await fetch(`http://localhost:3001/getSaved?userId=${user._id}&full=${0}`, {
+    const response = await fetch(`http://${host}:3001/getSaved?userId=${user._id}&full=${0}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });

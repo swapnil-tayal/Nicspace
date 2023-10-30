@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setLogin } from "../state";
 import Dropzone from "react-dropzone";
 import validator from "validator";
@@ -19,6 +19,7 @@ const Login = () => {
   const [isEmailTaken, setIsEmailTaken] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const host = useSelector((state) => state.host);
 
   const validateEmail = () => {
     return (validator.isEmail(email));
@@ -44,7 +45,7 @@ const Login = () => {
       formData.append("picturePath", image.name);
     }
     
-    const registerResponse = await fetch(`http://localhost:3001/register`, {
+    const registerResponse = await fetch(`http://${host}:3001/register`, {
       method: "POST",
       body: formData
     })
@@ -73,7 +74,7 @@ const Login = () => {
       email: email,
       password: password,
     }
-    const loginResponse = await fetch(`http://localhost:3001/login`,{
+    const loginResponse = await fetch(`http://${host}:3001/login`,{
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data), 

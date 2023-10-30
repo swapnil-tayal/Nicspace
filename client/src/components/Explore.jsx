@@ -9,10 +9,11 @@ const Explore = () => {
   const [posts, setPosts] = useState([]);
   const [isValid, setIsValid] = useState(true);
   const token = useSelector((state) => state.token);
+  const host = useSelector((state) => state.host);
   // console.log(word);
 
   const getPosts = async() => {
-    const response = await fetch(`http://localhost:3001/search?word=${word}`, {
+    const response = await fetch(`http://${host}:3001/search?word=${word}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });

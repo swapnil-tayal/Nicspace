@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrPost, setPage } from '../state';
 import linkImg from "../images/link.png"
@@ -11,6 +11,7 @@ const Postcard = ({ _id, description, link, picturePath, title, userId, type, us
   const [isDisplay, setDisplay] = useState(false);
   const [isSelected, setIsSelected] = useState(isSaved);
   const [key, setKey] = useState(0);
+  const host = useSelector((state) => state.host);
   
   if(isSaved && key < 2){
     setIsSelected(isSaved);
@@ -22,7 +23,7 @@ const Postcard = ({ _id, description, link, picturePath, title, userId, type, us
     e.stopPropagation();
     setIsSelected(!isSelected);
     try{
-      const response = await fetch(`http://localhost:3001/save?userId=${user._id}&postId=${_id}`, {
+      const response = await fetch(`http://${host}:3001/save?userId=${user._id}&postId=${_id}`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -59,7 +60,7 @@ const Postcard = ({ _id, description, link, picturePath, title, userId, type, us
   if(userDP === "undefined"){
     userDP = null;
   }
-  if(type == "video") return (
+  if(type === "video") return (
     <>
       <video className="mb-11 rounded-xl" loop autoPlay muted>
         <source src={`https://firebasestorage.googleapis.com/v0/b/nicterest.appspot.com/o/${picturePath}?alt=media`} type="video/mp4"/>
