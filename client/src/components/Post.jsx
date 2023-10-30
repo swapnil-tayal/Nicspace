@@ -10,6 +10,8 @@ const Post = () => {
   const currPost = useSelector((state) => state.currPost);
   const dispatch = useDispatch();
 
+  console.log(currPost.userDP);
+
   const toTop = () => {
     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
   }
@@ -21,6 +23,7 @@ const Post = () => {
   return (  
     <>
     <img 
+      alt="de"
       onClick={() => {dispatch(setPage({page: "home"}))}}
       className='w-[50px] ml-12 mt-10 hover:bg-[#e9e9e9] p-4 rounded-full absolute hidden lg:block' 
       src={backArrow} ></img>
@@ -42,8 +45,9 @@ const Post = () => {
           <div className='flex flex-row items-center justify-between' >
             <div className='flex flex-row items-center' >
               <img  className='w-[50px] mr-3 rounded-full inline-block' 
-                    src={ currPost.userDP === undefined || currPost.userDP === null
-                        ? {defaultDP}
+                    alt=''
+                    src={ (currPost.userDP === undefined || currPost.userDP === null)
+                        ? `${defaultDP}`
                         : `https://firebasestorage.googleapis.com/v0/b/nicterest.appspot.com/o/${currPost.userDP}?alt=media`
                       } 
               ></img>

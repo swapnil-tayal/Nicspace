@@ -100,7 +100,7 @@ const Login = () => {
   }
 
   return (
-    <div className="h-[100vh] bg-[url('../images/loginBg.png')]
+    <div className="h-[100vh] bg-[url('./images/loginBg.png')]
                     flex flex-row justify-center">
 
       <div className="text-white font-semibold text-8xl w-[100%] items-center select-none hidden

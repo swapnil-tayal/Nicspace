@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Dropzone from "react-dropzone";
 import { useState } from "react";
 import upload from "../images/upload.png"
+// import logo from "../images"
 
 const CreatePost = () => {
 
@@ -40,7 +41,7 @@ const CreatePost = () => {
     })
     
     const post = await response.json();
-    console.log('success')
+    console.log('success', post)
 
     setImage(null);
     setVideo(null);
@@ -69,7 +70,7 @@ const CreatePost = () => {
       body: formData,
     })
     const post = await response.json();
-    console.log('success')
+    console.log('success', post)
     
     setImage(null);
     setVideo(null);
@@ -79,7 +80,6 @@ const CreatePost = () => {
     setTag("");
     setShowPublishButton(true);
   };
-  const maxSize = 1048576;
 
   return (
 
