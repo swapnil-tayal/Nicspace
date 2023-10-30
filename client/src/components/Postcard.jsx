@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrPost, setPage } from '../state';
+import linkImg from "../images/link.png"
 
 const Postcard = ({ _id, description, link, picturePath, title, userId, type, userDP, name, tag, isSaved }) => {
 
-  if(picturePath === "undefined") return;
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
   const [isDisplay, setDisplay] = useState(false);
   const [isSelected, setIsSelected] = useState(isSaved);
   const [key, setKey] = useState(0);
-  const token = useSelector((state) => state.token);
   
   if(isSaved && key < 2){
     setIsSelected(isSaved);
@@ -89,7 +89,7 @@ const Postcard = ({ _id, description, link, picturePath, title, userId, type, us
          <img 
             onClick={(e) => {window.location.href = `${link}`; e.stopPropagation()}} 
             className="mt-[0.15rem] bg-white rounded-full h-[35px] p-[0.5rem] opacity-80 hover:cursor-pointer" 
-            src="../images/link.png" 
+            src={linkImg}
             alt="" 
           />
         }

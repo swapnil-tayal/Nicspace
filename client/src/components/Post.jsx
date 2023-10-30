@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import Feed from './Feed';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPage } from '../state';
+import backArrow from "../images/backArrow.png"
+import defaultDP from "../images/defaultUserDP.jpg"
 
 const Post = () => {
 
@@ -21,7 +23,7 @@ const Post = () => {
     <img 
       onClick={() => {dispatch(setPage({page: "home"}))}}
       className='w-[50px] ml-12 mt-10 hover:bg-[#e9e9e9] p-4 rounded-full absolute hidden lg:block' 
-      src="../images/backArrow.png" ></img>
+      src={backArrow} ></img>
       
     <div className='flex flex-row justify-center' >
       <div className='p-10 rounded-2xl shadow-[0_3px_10px_rgb(0,0,0,0.2)] mt-6 flex flex-col md:flex-row justify-center gap-12'>
@@ -41,7 +43,7 @@ const Post = () => {
             <div className='flex flex-row items-center' >
               <img  className='w-[50px] mr-3 rounded-full inline-block' 
                     src={ currPost.userDP === undefined || currPost.userDP === null
-                        ? `../images/defaultUserDP.jpg`
+                        ? {defaultDP}
                         : `https://firebasestorage.googleapis.com/v0/b/nicterest.appspot.com/o/${currPost.userDP}?alt=media`
                       } 
               ></img>

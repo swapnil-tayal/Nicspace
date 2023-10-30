@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setPage, setLogout, setSearchWord } from '../state';
+import logo from "../images/logo.png"
+import defaultUserDP from '../images/defaultUserDP.jpg' 
+import notificationicon from "../images/notification-icon.png"
+import chatIcon from "../images/chat-icon.png"
 
 const Navbar = () => {
   
@@ -21,7 +25,7 @@ const Navbar = () => {
       <div className='flex flex-row px-1 sm:px-[2rem] py-[1rem] justify-between' >
         <div className='flex flex-row'>
           <div className='hidden md:block'>
-            <img className="w-[50px] mr-[10px]" src="../images/logo.png" alt="" /> 
+            <img className="w-[50px] mr-[10px]" src={logo} alt="" /> 
           </div>
           <div className={`${currPage=="home" || currPage=="post"?`bg-black text-white`:`bg-white text-black`} 
                           px-[1rem] py-3 text-base rounded-3xl font-medium hover:cursor-pointer`}
@@ -57,8 +61,8 @@ const Navbar = () => {
           </div>
         </div>
         <div className='flex flex-row sm:items-center bg-white'>
-          <img className="sm:block hidden h-[40px]" src="../images/chat-icon.png" alt="" /> 
-          <img className="sm:block hidden h-[40px]" src="../images/notification-icon.png" alt="" /> 
+          <img className="sm:block hidden h-[40px]" src={chatIcon} alt="" /> 
+          <img className="sm:block hidden h-[40px]" src={notificationicon} alt="" /> 
           {(user.picturePath && user.picturePath != "undefined_undefined")
             ? <img 
                   onClick={() => {dispatch(setPage({page: "profile"}))}}
@@ -67,7 +71,7 @@ const Navbar = () => {
             : <img 
                   onClick={() => {dispatch(setPage({page: "profile"}))}}
                   className='h-[40px] rounded-full' 
-                  src='../images/defaultUserDP.jpg'/>
+                  src={defaultUserDP}/>
           }
         </div>
       </div>

@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Dropzone from "react-dropzone";
 import { useState } from "react";
+import upload from "../images/upload.png"
 
 const CreatePost = () => {
 
@@ -131,7 +132,7 @@ const CreatePost = () => {
                 <div className="h-[20rem] sm:h-[26rem] w-[90vw] sm:w-[24rem] 
                               bg-[#e9e9e9] flex flex-col justify-center items-center rounded-3xl" {...getRootProps()}>
                   <div className="flex flex-row">
-                    <img className="w-[50px]" src="../images/upload.png" alt="" /> 
+                    <img className="w-[50px]" src={upload} alt="" /> 
                   </div>
                   <input  {...getInputProps()} />
                   {isDragActive ? 
@@ -155,7 +156,7 @@ const CreatePost = () => {
               <div>
               <div className="h-[20rem] sm:h-[26rem] w-[90vw] sm:w-[24rem] 
                               bg-[#e9e9e9] flex flex-col justify-center items-center rounded-3xl" {...getRootProps()}>
-                <img className="w-[50px]" src="../images/upload.png" alt="" /> 
+                <img className="w-[50px]" src={upload} alt="" /> 
                 
                 <input  {...getInputProps()} />
                 {isDragActive ? 
