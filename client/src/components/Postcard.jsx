@@ -97,7 +97,7 @@ const Postcard = ({ _id, description, link, picturePath, title, userId, type, us
       </div>
       <div className={`${userDP ? 'mt-[-70px]': 'mt-[-42px]'} ml-2 absolute font-semibold`}>
         <div>{title}</div>
-        {userDP && (
+        {(userDP && userDP !== "undefined_undefined") && (
           <>
             <img className="w-[35px] h-[35px] rounded-full" src={`https://firebasestorage.googleapis.com/v0/b/nicterest.appspot.com/o/${userDP}?alt=media`} alt="" /> 
             <div className='ml-[40px] mt-[-30px] font-normal' >{name}</div>

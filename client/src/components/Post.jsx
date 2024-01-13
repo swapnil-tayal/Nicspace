@@ -46,7 +46,7 @@ const Post = () => {
             <div className='flex flex-row items-center' >
               <img  className='w-[50px] mr-3 rounded-full inline-block' 
                     alt=''
-                    src={ (currPost.userDP === undefined || currPost.userDP === null)
+                    src={ (currPost.userDP === undefined || currPost.userDP === null || currPost.userDP === "undefined_undefined")
                         ? `${defaultDP}`
                         : `https://firebasestorage.googleapis.com/v0/b/nicterest.appspot.com/o/${currPost.userDP}?alt=media`
                       } 
