@@ -44,13 +44,13 @@ const Login = () => {
     if(image){
       formData.append("picturePath", image.name);
     }
-    
+
     const registerResponse = await fetch(`http://${host}:3001/register`, {
       method: "POST",
       body: formData
     })
     const isRegisSucc = await registerResponse.json();
-    console.log(isRegisSucc);
+    
     if(isRegisSucc.email === email){
       setIsLoginSucess(true);
       console.log('user registered');

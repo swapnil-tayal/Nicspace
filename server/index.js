@@ -12,8 +12,6 @@ import { fileURLToPath } from "url";
 import path from "path";
 dotenv.config();
 
-
-
 // firebase
 import { getStorage, ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { initializeApp } from "firebase/app";
@@ -114,15 +112,19 @@ app.post("/posts/picture", upload.single("picture"), async(req, res) => {
 
 app.post("/register", upload.single("picture"), async (req, res) => {
   try {
-    const { name, email, password, picturePath } = req.body;
-    const newPath = Date.now() + "_" + picturePath;
-
-    const storageRef = ref(storage, newPath);
-    const metadata = {
-      contentType: req.file.mimetype,
-    };
-    const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
-    // encryption
+    const { name, email, password, picturePath, picture } = req.body;
+    let newPath = Date.now() + "_" + picturePath;
+    if(picturePath === undefined){
+      newPath = "undefined_undefined";
+    }
+    if(picture !== 'null'){
+      const storageRef = ref(storage, newPath);
+      const metadata = {
+        contentType: req.file.mimetype,
+      };
+      const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
+    }
+  // encryption
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
     const newNicUser = new NicUser({
