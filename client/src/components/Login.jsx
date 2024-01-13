@@ -115,7 +115,7 @@ const Login = () => {
             <div className={`flex flex-col justify-center items-center 
                               ${!isLoginState ? 'mt-1 sm:mt-1':'mt-8 sm:mt-16'}`} >
               <img className="w-[85px]" src={logo} alt="" /> 
-              <div className="text-black font-semibold text-[1.2rem] sm:text-[1.8rem]">Welcome to Nicterest</div>
+              <div className="text-black font-semibold text-[1.2rem] sm:text-[1.8rem]">Welcome to Nicspace</div>
               <div className="text-black font-normal text-[1rem]">Find new ideas to try</div>
             </div>
             

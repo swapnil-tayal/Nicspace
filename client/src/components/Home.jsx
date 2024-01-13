@@ -39,9 +39,9 @@ const Home = () => {
   const updatePost = async() => {
     // alert("hello");
     if(posts.length >= postSize) return;
+    // console.log(pageNo);
     setPageNo(pageNo+1);
-    console.log(pageNo);
-    const response = await fetch(`http://${host}:3001/posts?page=${1}` ,{
+    const response = await fetch(`http://${host}:3001/posts?page=${pageNo+1}` ,{
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });

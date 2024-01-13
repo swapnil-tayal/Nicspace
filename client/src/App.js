@@ -11,7 +11,7 @@ import Post from './components/Post';
 function App() {
 
   const isAuth = Boolean(useSelector((state) => state.token));
-  console.log(isAuth);
+  // console.log(isAuth);
   const dispatch = useDispatch();
   
   // useEffect(() => {

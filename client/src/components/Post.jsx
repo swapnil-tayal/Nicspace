@@ -10,7 +10,7 @@ const Post = () => {
   const currPost = useSelector((state) => state.currPost);
   const dispatch = useDispatch();
 
-  console.log(currPost.userDP);
+  // console.log(currPost.userDP);
 
   const toTop = () => {
     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});

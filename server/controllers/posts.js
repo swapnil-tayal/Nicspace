@@ -4,8 +4,8 @@ dotenv.config();
 
 export const getPosts = async(req, res) => {
   try{
-    const skipVal = req.query.page * 20;
-    const post = await NicPost.find().limit(20).skip(skipVal);
+    const skipVal = req.query.page * 18;
+    const post = await NicPost.find().limit(18).skip(skipVal);
     res.status(200).json(post);
   } catch(e){
     res.status(404).json({ message: err.message });
