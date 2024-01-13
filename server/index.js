@@ -26,8 +26,7 @@ import { saveThePost, getSavedPosts } from "./controllers/savePosts.js";
 import { createdPost } from "./controllers/createdPosts.js";
 import { searchPosts } from "./controllers/searchPosts.js";
 
-
-const app = express();  
+const app = express();
 app.use(express.json());
 app.use(cors());  
 
