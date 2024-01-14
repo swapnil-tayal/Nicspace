@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setPage, setLogout, setSearchWord } from '../state';
-import logo from "../images/logo.png"
+import logo from "../images/logo3.png"
 import defaultUserDP from '../images/defaultUserDP.jpg' 
 import notificationicon from "../images/notification-icon.png"
 import chatIcon from "../images/chat-icon.png"

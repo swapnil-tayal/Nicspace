@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setLogin } from "../state";
 import Dropzone from "react-dropzone";
 import validator from "validator";
-import logo from "../images/logo.png"
+import logo from "../images/nicspace2.png"
 
 const Login = () => {
 
@@ -114,7 +114,7 @@ const Login = () => {
 
             <div className={`flex flex-col justify-center items-center 
                               ${!isLoginState ? 'mt-1 sm:mt-1':'mt-8 sm:mt-16'}`} >
-              <img className="w-[85px]" src={logo} alt="" /> 
+              <img className="w-[250px] mb-10" src={logo} alt="" /> 
               <div className="text-black font-semibold text-[1.2rem] sm:text-[1.8rem]">Welcome to Nicspace</div>
               <div className="text-black font-normal text-[1rem]">Find new ideas to try</div>
             </div>
