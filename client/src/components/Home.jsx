@@ -41,7 +41,14 @@ const Home = () => {
     if(posts.length >= postSize) return;
     // console.log(pageNo);
     setPageNo(pageNo+1);
-    const response = await fetch(`http://${host}:3001/posts?page=${pageNo+1}` ,{
+
+    let page = pageNo + 1;
+    if(currPage === "profile"){
+      console.log("return");
+      return;
+    } 
+    console.log(page);
+    const response = await fetch(`http://${host}:3001/posts?page=${page}` ,{
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
