@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import { setPage, setLogout, setSearchWord } from '../state';
 import logo from "../images/logo3.png"
 import defaultUserDP from '../images/defaultUserDP.jpg' 
@@ -12,13 +13,17 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const [searchVal, setVal] = useState("");
   const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   const onKeyUpValue = (e) => {
     if(e.key === "Enter"){
+      console.log("first");
       dispatch(setPage({page: "explore"}))
       dispatch(setSearchWord({ searchWord: searchVal }))
+      navigate('/explore')
     }
   }
+
 
   return (
     <>
@@ -29,27 +34,45 @@ const Navbar = () => {
           </div>
           <div className={`${currPage=="home" || currPage=="post"?`bg-black text-white`:`bg-white text-black`} 
                           px-[1rem] py-3 text-base rounded-3xl font-medium hover:cursor-pointer`}
-               onClick={() => {dispatch(setPage({page: "home"}))}}
+               onClick={() => {
+                dispatch(setPage({page: "home"}))
+                navigate("/home")
+              }}
           >Home</div>
           <div className={`hidden md:block ${currPage=="explore"?`bg-black text-white`:`bg-white text-black`} 
                           px-[1rem] py-3 text-base rounded-3xl font-medium hover:cursor-pointer`}
-               onClick={() => {dispatch(setPage({page: "explore"}))}}
+               onClick={() => {
+                dispatch(setPage({page: "explore"}))
+                navigate("/explore")
+              }}
           >Explore</div>
           <div className={`hidden md:block ${currPage=="create"?`bg-black text-white`:`bg-white text-black`} 
                           px-[1rem] py-3 text-base rounded-3xl font-medium hover:cursor-pointer`}
-               onClick={() => {dispatch(setPage({page: "create"}))}}
+               onClick={() => {
+                dispatch(setPage({page: "create"}))
+                navigate("/create")
+              }}
           >Create</div>
           <div className={`hidden md:block ${currPage=="profile"?`bg-black text-white`:`bg-white text-black`} 
                           px-[1rem] py-3 text-base rounded-3xl font-medium hover:cursor-pointer`}
-               onClick={() => {dispatch(setPage({page: "profile"}))}}
+               onClick={() => {
+                dispatch(setPage({page: "profile"}))
+                navigate("/profile")
+              }}
           >Profile</div>
           <div className={`hidden md:block ${currPage=="saved"?`bg-black text-white`:`bg-white text-black`} 
                           px-[1rem] py-3 text-base rounded-3xl font-medium hover:cursor-pointer`}
-               onClick={() => {dispatch(setPage({page: "saved"}))}}
+               onClick={() => {
+                dispatch(setPage({page: "saved"}))
+                navigate("/saved")
+              }}
           >Saved</div>
           <div className={`hidden md:block ${currPage=="logout"?`bg-black text-white`:`bg-white text-black`} 
                           px-[1rem] py-3 text-base rounded-3xl font-medium hover:cursor-pointer`}
-               onClick={() => {dispatch(setLogout())}}
+               onClick={() => {
+                dispatch(setLogout())
+                navigate("/")
+              }}
           >Logout</div>
           
           <div className='px-2'>
@@ -57,7 +80,8 @@ const Navbar = () => {
                     value={searchVal}
                     onChange={(e) => setVal(e.target.value)}
                     onKeyUp={(e) => onKeyUpValue(e)}
-                    placeholder="Search" />
+                    placeholder="Search" 
+                    />
           </div>
         </div>
         <div className='flex flex-row sm:items-center bg-white'>

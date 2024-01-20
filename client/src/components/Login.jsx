@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setLogin } from "../state";
+import { setLogin, setPage } from "../state";
 import Dropzone from "react-dropzone";
 import validator from "validator";
 import logo from "../images/nicspace2.png"
@@ -88,6 +88,11 @@ const Login = () => {
         setLogin({
           user: isLoginSucc.user,
           token: isLoginSucc.token,
+        })
+      )
+      dispatch(
+        setPage({
+          page:"home"
         })
       )
       navigate("/home");

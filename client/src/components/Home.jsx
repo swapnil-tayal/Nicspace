@@ -10,6 +10,8 @@ import Post from './Post';
 import Profile from './Profile';
 import Save from './Save';
 import Explore from './Explore'
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
+import Login from './Login';
 
 const shuffle = (array) => { 
   return array.map((a) => ({ sort: Math.random(), value: a }))
@@ -20,6 +22,9 @@ const shuffle = (array) => {
 const Home = () => {
 
   const currPage = useSelector((state) => state.page);
+  // console.log(currPage);
+  const isAuth = Boolean(useSelector((state) => state.token));
+  // console.log(isAuth);
   const posts = useSelector((state) => state.posts);
   const [pageNo, setPageNo] = useState(0);
   const dispatch = useDispatch();
@@ -28,6 +33,7 @@ const Home = () => {
   const host = useSelector((state) => state.host);
 
   const getSize = async() => {
+    if(currPage === '/') return;
     const response = await fetch(`http://${host}:3001/postsSize`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
@@ -47,7 +53,7 @@ const Home = () => {
       console.log("return");
       return;
     } 
-    console.log(page);
+    // console.log(page);
     const response = await fetch(`http://${host}:3001/posts?page=${page}` ,{
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
@@ -64,15 +70,20 @@ const Home = () => {
 
   return (
     <BottomScrollListener onBottom={() => updatePost()} >
-      <Navbar />
-      
-      { currPage === "home" && <Feed /> }
-      { currPage === 'create' && <CreatePost /> }
-      { currPage === 'post' && <Post /> }
-      { currPage === 'profile' && <Profile /> }
-      { currPage === 'saved' && <Save /> }
-      { currPage === 'explore' && <Explore /> }
-
+      <BrowserRouter>
+        { currPage !== "/" && <Navbar /> }
+        <Routes>
+          <Route path='/' element={<Login />} />
+          <Route 
+            path='/home' 
+            element={isAuth ? <Feed /> : <Navigate to="/"/>} />
+          <Route path='/explore' element={<Explore />} />
+          <Route path='/create' element={<CreatePost />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/saved' element={<Save />} />
+          <Route path='/postPage' element={<Post />} />
+        </Routes>
+      </BrowserRouter>
     </BottomScrollListener>
   )
 }

@@ -26,7 +26,7 @@ const Explore = () => {
 
   useEffect(() => {
     getPosts();
-  }, [])
+  }, [word])
 
   return (
     <>

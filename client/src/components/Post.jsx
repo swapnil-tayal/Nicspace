@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setPage } from '../state';
 import backArrow from "../images/backArrow.png"
 import defaultDP from "../images/defaultUserDP.jpg"
+import { useNavigate } from "react-router-dom";
 
 const Post = () => {
 
   const currPost = useSelector((state) => state.currPost);
   const dispatch = useDispatch();
-
-  // console.log(currPost.userDP);
+  const navigate = useNavigate();
 
   const toTop = () => {
     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
@@ -24,7 +24,7 @@ const Post = () => {
     <>
     <img 
       alt="de"
-      onClick={() => {dispatch(setPage({page: "home"}))}}
+      onClick={() => {dispatch(setPage({page: "home"})); navigate('/home')}}
       className='w-[50px] ml-12 mt-10 hover:bg-[#e9e9e9] p-4 rounded-full absolute hidden lg:block' 
       src={backArrow} ></img>
       

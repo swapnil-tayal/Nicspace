@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrPost, setPage } from '../state';
 import linkImg from "../images/link.png"
+import { useNavigate } from "react-router-dom";
 
 const Postcard = ({ _id, description, link, picturePath, title, userId, type, userDP, name, tag, isSaved }) => {
 
@@ -12,6 +13,7 @@ const Postcard = ({ _id, description, link, picturePath, title, userId, type, us
   const [isSelected, setIsSelected] = useState(isSaved);
   const [key, setKey] = useState(0);
   const host = useSelector((state) => state.host);
+  const navigate = useNavigate();
   
   if(isSaved && key < 2){
     setIsSelected(isSaved);
@@ -50,6 +52,7 @@ const Postcard = ({ _id, description, link, picturePath, title, userId, type, us
       _id: _id
     };
     dispatch(setPage({page: "post"}))
+    navigate('/postPage')
     dispatch(
       setCurrPost({
         currPost: data

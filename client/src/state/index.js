@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isLightMode: true,
   user: null,
   token: null,
   posts: [],
@@ -15,9 +14,6 @@ export const authSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setMode: (state) => {
-      state.isLightMode = !state.isLightMode;
-    },
     setLogin: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
@@ -27,7 +23,7 @@ export const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.posts = [];
-      state.page = "home";
+      state.page = "/";
       state.host = "localhost";
     },
     setPage: (state, action) => {
@@ -46,7 +42,6 @@ export const authSlice = createSlice({
 });
 
 export const {
-  setMode,
   setLogin,
   setLogout,
   setPage,
