@@ -3,6 +3,7 @@ import Postcard from './Postcard';
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from '../state';
 import { HashLoader } from "react-spinners"
+import { BottomScrollListener } from 'react-bottom-scroll-listener';
 
 const shuffle = (array) => { 
   return array.map((a) => ({ sort: Math.random(), value: a }))
@@ -13,13 +14,15 @@ const shuffle = (array) => {
 const Feed = () => {
 
   const dispatch = useDispatch();
+  const [postSize, setPostSize] = useState(1);
   const posts = useSelector((state) => state.posts);
+  const currPage = useSelector((state) => state.page);
   const user = useSelector((state) => state.user);
   const [savedPost, setSavedPost] = useState([]);
-  const token = useSelector((state) => state.token)
+  const [pageNo, setPageNo] = useState(0);
+  const token = useSelector((state) => state.token);
   const host = useSelector((state) => state.host);
   let f = 0;
-  // console.log(token);
 
   const uniqPost = [];
   for(let i=0; i<posts.length; i++){
@@ -34,7 +37,6 @@ const Feed = () => {
   }
 
   const getUser = async() => {
-
     if(f === 1) return;
     f = 1;
     const response = await fetch(`http://${host}:3001/posts?page=0` ,{
@@ -47,29 +49,50 @@ const Feed = () => {
   }
 
   const getSavedPost = async() => {
-
     const response = await fetch(`http://${host}:3001/getSaved?userId=${user._id}&full=${0}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
-    // console.log(data);
-    // dispatch(setSavePost({ savePost: data }));
     setSavedPost(data);
+  }  
+
+  const updatePost = async() => {
+    if(posts.length >= postSize) return;
+    setPageNo(pageNo+1);
+    const response = await fetch(`http://${host}:3001/posts?page=${pageNo + 1}` ,{
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await response.json();
+    const dataSh = shuffle(data);
+    const newPosts = posts.concat(dataSh);
+    dispatch(
+      setPost({
+        posts: newPosts
+    }));
+  }  
+
+  const getSize = async() => {
+    if(currPage === '/') return;
+    const response = await fetch(`http://${host}:3001/postsSize`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    const size = await response.json();
+    setPostSize(size);  
   }
 
   useEffect(() => {
+    getSize();
     getUser();
-    // console.log("feed");
     getSavedPost();
   }, []);
 
-  // console.log(uniqPost);
-
   return (
+    <BottomScrollListener onBottom={() => updatePost()} >
     <div>
       <div className='columns-2 sm:columns-3 md:columns-4 lg:columns-5 xl:columns-6 col-span-4 gap-4 px-6 py-4'>
-        {/* <div className='bg-green-500' > */}
           {Array.from(uniqPost).map(({_id, description, link, picturePath, title, userId, type, userDP, name, tag}) => 
             <Postcard 
               key={_id}
@@ -87,11 +110,11 @@ const Feed = () => {
             />
           )}
       </div>
-      
       <div className='h-60 flex flex-col justify-center items-center' >
           <HashLoader color="#000000"/>
       </div> 
     </div>
+    </BottomScrollListener>
   )
 }
 

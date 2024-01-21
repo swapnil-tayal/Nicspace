@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setLogin, setPage } from "../state";
+import { setLogin, setPage, setLogout } from "../state";
 import Dropzone from "react-dropzone";
 import validator from "validator";
 import logo from "../images/nicspace2.png"
@@ -104,6 +104,10 @@ const Login = () => {
     if(isLoginState) await loginCall();
     else await registerCall();
   }
+
+  useEffect(() => {
+    dispatch(setLogout())
+  }, []);
 
   return (
     <div className="h-[100vh] bg-[url('./images/loginBg.png')]
