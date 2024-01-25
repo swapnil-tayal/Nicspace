@@ -20,12 +20,22 @@ const Home = () => {
           <Route path='/' element={<Login />} />
           <Route 
             path='/home' 
-            element={isAuth ? <Feed /> : <Navigate to="/"/>} />
-          <Route path='/explore' element={<Explore />} />
-          <Route path='/create' element={<CreatePost />} />
-          <Route path='/profile' element={<Profile />} />
-          <Route path='/saved' element={<Save />} />
-          <Route path='/postPage' element={<Post />} />
+            element={isAuth === false ? <Navigate to="/"/>: <Feed />} />
+          <Route 
+            path='/explore' 
+            element={isAuth === false ? <Navigate to="/"/> : <Explore />} />
+          <Route 
+            path='/create' 
+            element={isAuth === false ? <Navigate to="/"/> : <CreatePost />} />
+          <Route 
+            path='/profile' 
+            element={isAuth === false ? <Navigate to="/"/> : <Profile />} />
+          <Route 
+            path='/saved' 
+            element={isAuth === false ? <Navigate to="/"/> : <Save />} />
+          <Route 
+            path='/postPage' 
+            element={isAuth === false ? <Navigate to="/"/> : <Post />} />
         </Routes>
       </BrowserRouter>
   )
