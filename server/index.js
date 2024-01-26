@@ -148,7 +148,6 @@ app.get("/getSaved", verifyToken, getSavedPosts);
 app.get("/getCreated", verifyToken, createdPost)
 app.get('/search', verifyToken, searchPosts);
 
-
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
