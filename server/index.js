@@ -140,7 +140,6 @@ app.post("/register", upload.single("picture"), async (req, res) => {
   }}
 );
 
-
 app.post("/login", login);
 app.get("/posts", verifyToken, getPosts);
 app.get("/postsSize", verifyToken, getPostSize);
