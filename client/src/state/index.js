@@ -7,7 +7,7 @@ const initialState = {
   page: "home",
   currPost: null,
   searchWord: "",
-  host:"http://localhost:3001"
+  host:"https://nicspace-server.onrender.com"
 };
 
 export const authSlice = createSlice({
@@ -24,7 +24,7 @@ export const authSlice = createSlice({
       state.token = null;
       state.posts = [];
       state.page = "/";
-      state.host = "http://localhost:3001";
+      state.host = "https://nicspace-server.onrender.com";
     },
     setPage: (state, action) => {
       state.page = action.payload.page;
