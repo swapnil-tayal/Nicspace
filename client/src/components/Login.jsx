@@ -45,7 +45,7 @@ const Login = () => {
       formData.append("picturePath", image.name);
     }
 
-    const registerResponse = await fetch(`http://${host}:3001/register`, {
+    const registerResponse = await fetch(`http://${host}/register`, {
       method: "POST",
       body: formData
     })
@@ -74,7 +74,7 @@ const Login = () => {
       email: email,
       password: password,
     }
-    const loginResponse = await fetch(`http://${host}:3001/login`,{
+    const loginResponse = await fetch(`http://${host}/login`,{
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data), 

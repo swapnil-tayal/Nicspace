@@ -12,7 +12,7 @@ const Save = () => {
   const host = useSelector((state) => state.host);
 
   const getSavedPost = async() => {
-    const response = await fetch(`http://${host}:3001/getSaved?userId=${user._id}&full=${1}`, {
+    const response = await fetch(`http://${host}/getSaved?userId=${user._id}&full=${1}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });

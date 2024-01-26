@@ -39,7 +39,7 @@ const Feed = () => {
   const getUser = async() => {
     if(f === 1) return;
     f = 1;
-    const response = await fetch(`http://${host}:3001/posts?page=0` ,{
+    const response = await fetch(`http://${host}/posts?page=0` ,{
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -49,7 +49,7 @@ const Feed = () => {
   }
 
   const getSavedPost = async() => {
-    const response = await fetch(`http://${host}:3001/getSaved?userId=${user._id}&full=${0}`, {
+    const response = await fetch(`http://${host}/getSaved?userId=${user._id}&full=${0}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -60,7 +60,7 @@ const Feed = () => {
   const updatePost = async() => {
     if(posts.length >= postSize) return;
     setPageNo(pageNo+1);
-    const response = await fetch(`http://${host}:3001/posts?page=${pageNo + 1}` ,{
+    const response = await fetch(`http://${host}/posts?page=${pageNo + 1}` ,{
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -75,7 +75,7 @@ const Feed = () => {
 
   const getSize = async() => {
     if(currPage === '/') return;
-    const response = await fetch(`http://${host}:3001/postsSize`, {
+    const response = await fetch(`http://${host}/postsSize`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     })

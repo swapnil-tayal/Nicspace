@@ -18,7 +18,7 @@ const Profile = () => {
   const host = useSelector((state) => state.host);
 
   const getSavedPost = async() => {
-    const response = await fetch(`http://${host}:3001/getSaved?userId=${user._id}&full=${1}`, {
+    const response = await fetch(`http://${host}/getSaved?userId=${user._id}&full=${1}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -29,7 +29,7 @@ const Profile = () => {
     setSavedPost(data);
   }
   const getCreatedPosts = async() => {
-    const response = await fetch(`http://${host}:3001/getCreated?userId=${user._id}`, {
+    const response = await fetch(`http://${host}/getCreated?userId=${user._id}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });

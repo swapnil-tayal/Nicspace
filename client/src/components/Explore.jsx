@@ -13,7 +13,7 @@ const Explore = () => {
   // console.log(word);
 
   const getPosts = async() => {
-    const response = await fetch(`http://${host}:3001/search?word=${word}`, {
+    const response = await fetch(`http://${host}/search?word=${word}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
