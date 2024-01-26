@@ -40,6 +40,14 @@ const storage = getStorage();
 
 const upload = multer({ storage: multer.memoryStorage() });
 
+app.get("/test", async(req, res) => {
+  try{
+    res.status(201).json("check done");
+  }catch(e){
+    res.status(409).json({ message: e.message });
+  }
+})
+
 app.post("/posts/video", upload.single("video"), async(req, res) => {
   try{
     const { userId, description, picturePath, title, link, tag, userDP } = req.body;
