@@ -25,7 +25,7 @@ const Postcard = ({ _id, description, link, picturePath, title, userId, type, us
     e.stopPropagation();
     setIsSelected(!isSelected);
     try{
-      const response = await fetch(`http://${host}/save?userId=${user._id}&postId=${_id}`, {
+      const response = await fetch(`${host}/save?userId=${user._id}&postId=${_id}`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       })

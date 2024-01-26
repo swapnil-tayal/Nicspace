@@ -13,6 +13,9 @@ import Login from './Login';
 const Home = () => {
 
   const isAuth = Boolean(useSelector((state) => state.token));
+  const host = (useSelector((state) => state.host));
+
+  console.log(host);
   return (
       <BrowserRouter>
         { isAuth  && <Navbar /> }

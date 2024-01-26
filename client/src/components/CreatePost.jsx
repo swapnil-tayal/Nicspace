@@ -36,7 +36,7 @@ const CreatePost = () => {
     formData.append("tag", tag);
     formData.append("userDP", user.picturePath)
 
-    const response = await fetch(`http://${host}/posts/picture`, {
+    const response = await fetch(`${host}/posts/picture`, {
       method: "POST",
       body: formData,
     })
@@ -66,7 +66,7 @@ const CreatePost = () => {
     formData.append("tag", tag);
     formData.append("userDP", user.picturePath)
 
-    const response = await fetch(`http://${host}/posts/video`, {
+    const response = await fetch(`${host}/posts/video`, {
       method: "POST",
       body: formData,
     })

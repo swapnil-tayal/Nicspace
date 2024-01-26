@@ -7,7 +7,7 @@ const initialState = {
   page: "home",
   currPost: null,
   searchWord: "",
-  host:"localhost:3001"
+  host:"http://localhost:3001"
 };
 
 export const authSlice = createSlice({
@@ -24,7 +24,7 @@ export const authSlice = createSlice({
       state.token = null;
       state.posts = [];
       state.page = "/";
-      state.host = "localhost:3001";
+      state.host = "http://localhost:3001";
     },
     setPage: (state, action) => {
       state.page = action.payload.page;
