@@ -31,7 +31,7 @@ const Postcard = ({ _id, description, link, picturePath, title, userId, type, us
       })
       const data = await response.json(); 
       if(data.message === "Post saved successfully"){
-        console.log("un/saved");
+        // console.log("un/saved");
       }
     }catch(e){
       console.log(e);

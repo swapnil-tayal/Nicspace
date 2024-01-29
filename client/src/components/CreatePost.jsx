@@ -24,7 +24,7 @@ const CreatePost = () => {
   const handlePostPic = async (e) => {
 
     e.preventDefault();
-    console.log(image, title, link, description, tag);
+    // console.log(image, title, link, description, tag);
     
     const formData = new FormData();  
     formData.append("userId", user._id);
@@ -42,7 +42,7 @@ const CreatePost = () => {
     })
     
     const post = await response.json();
-    console.log('success', post)
+    // console.log('success', post)
 
     setImage(null);
     setVideo(null);
@@ -71,7 +71,7 @@ const CreatePost = () => {
       body: formData,
     })
     const post = await response.json();
-    console.log('success', post)
+    // console.log('success', post)
     
     setImage(null);
     setVideo(null);
