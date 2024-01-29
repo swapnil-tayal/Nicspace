@@ -24,7 +24,8 @@ export const authSlice = createSlice({
       state.token = null;
       state.posts = [];
       state.page = "/";
-      state.host = "https://nicspace-server.onrender.com";
+      state.host = "http://localhost:3001";
+      // state.host = "https://nicspace-server.onrender.com";
     },
     setPage: (state, action) => {
       state.page = action.payload.page;

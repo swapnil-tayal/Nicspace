@@ -115,15 +115,15 @@ const Login = () => {
 
       <div className="text-white font-semibold text-8xl w-[100%] items-center select-none hidden
                       md:flex md:justify-center">
-        Sign up to <br/> Get your <br/> ideas
+        {!isLoginState ? 'Sign up' : 'Log in'} to <br/> Get your <br/> ideas
       </div>
 
       <div className="px-0 lg:px-32 w-[95vw]">
         <div className="bg-white  p-[1rem] sm:p-[2rem] w-[100%] sm:w-[30rem] h-[100%]">
 
             <div className={`flex flex-col justify-center items-center 
-                              ${!isLoginState ? 'mt-1 sm:mt-1':'mt-8 sm:mt-16'}`} >
-              <img className="w-[250px] mb-10" src={logo} alt="" /> 
+                              ${!isLoginState ? 'mt-0 sm:mt-0':'mt-8 sm:mt-16'}`} >
+              <img className={`w-[250px] ${!isLoginState ? 'mb-2' : 'mb-10'}`} src={logo} alt="" /> 
               <div className="text-black font-semibold text-[1.2rem] sm:text-[1.8rem]">Welcome to Nicspace</div>
               <div className="text-black font-normal text-[1rem]">Find new ideas to try</div>
             </div>
