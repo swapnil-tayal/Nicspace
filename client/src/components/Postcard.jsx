@@ -39,6 +39,9 @@ const Postcard = ({ _id, description, link, picturePath, title, userId, type, us
   }
 
   const postPage = () => {
+    
+    if(window.innerWidth <= 500) return;
+
     const data = {
       description: description,
       link: link,

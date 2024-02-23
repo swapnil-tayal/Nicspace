@@ -89,11 +89,17 @@ const Navbar = () => {
           <img className="sm:block hidden h-[40px]" src={notificationicon} alt="" /> 
           {(user.picturePath && user.picturePath != "undefined_undefined")
             ? <img 
-                  onClick={() => {dispatch(setPage({page: "profile"}))}}
+                  onClick={() => {
+                    dispatch(setPage({page: "profile"})) 
+                    navigate("/profile")}
+                  }
                   className='h-[40px] rounded-full' 
                   src={`https://firebasestorage.googleapis.com/v0/b/nicterest.appspot.com/o/${user.picturePath}?alt=media`} />
             : <img 
-                  onClick={() => {dispatch(setPage({page: "profile"}))}}
+                  onClick={() => {
+                    dispatch(setPage({page: "profile"})) 
+                    navigate("/profile")}
+                  }
                   className='h-[40px] rounded-full' 
                   src={defaultUserDP}/>
           }
