@@ -35,7 +35,8 @@ const Explore = () => {
           <HashLoader color="#000000"/>
         </div> 
         : isValid ?
-          <div className='columns-2 sm:columns-3 md:columns-4 lg:columns-5 xl:columns-6 col-span-4 gap-4 px-6 py-4'>
+        <div className='columns-2 sm:columns-3 md:columns-4 lg:columns-5 xl:columns-6 col-span-4
+                        gap-2 px-2 sm:gap-3 md:gap-4 sm:px-3 md:px-3 lg:px-4 xl:px-6 py-5'>
             {Array.from(posts).map(({_id, description, link, picturePath, title, userId, type, userDP, name, tag}) => 
               <Postcard 
                 key={_id}
