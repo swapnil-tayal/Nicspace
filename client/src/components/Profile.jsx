@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from "react-router-dom";
 import Postcard from './Postcard';
 import { HashLoader } from "react-spinners"
 import { setPage } from '../state';
@@ -16,6 +17,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const host = useSelector((state) => state.host);
+  const navigate = useNavigate();
 
   const getSavedPost = async() => {
     const response = await fetch(`${host}/getSaved?userId=${user._id}&full=${1}`, {
@@ -58,7 +60,10 @@ const Profile = () => {
         <div className='mt-2 font-light' >{user.email}</div>
         <div className='flex flex-row gap-2 mt-4'>
           <div 
-            onClick={() => {dispatch(setPage({page: "create"}))}}
+            onClick={() => {
+              dispatch(setPage({page: "create"}))
+              navigate("/create")
+            }}
             className='bg-[#e9e9e9] hover:cursor-pointer text-base font-medium px-4 py-3 rounded-3xl'>
             Share 
           </div>
